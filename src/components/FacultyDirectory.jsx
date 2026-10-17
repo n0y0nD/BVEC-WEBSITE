@@ -8,6 +8,18 @@ import { cn } from "@/lib/format";
 
 const deptNames = Object.fromEntries(facultyDepartments.map((d) => [d.code, d.label]));
 
+function Grid({ people, showDept = false }) {
+  return (
+    <ul className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      {people.map((f) => (
+        <li key={f.email || f.name}>
+          <FacultyCard person={{ ...f, deptName: deptNames[f.dept] }} showDept={showDept} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function FacultyDirectory() {
   const [dept, setDept] = useState("All");
   const [query, setQuery] = useState("");
@@ -20,6 +32,12 @@ export default function FacultyDirectory() {
         (!q || [f.name, f.role, f.area, f.research].some((v) => v?.toLowerCase().includes(q)))
     );
   }, [dept, query]);
+
+  // With no filter or search, show everyone under department headings.
+  const grouped = dept === "All" && !query.trim();
+  const groups = facultyDepartments
+    .filter((d) => d.code !== "All")
+    .map((d) => ({ ...d, people: faculty.filter((f) => f.dept === d.code) }));
 
   return (
     <div>
@@ -59,13 +77,18 @@ export default function FacultyDirectory() {
         Showing {results.length} {results.length === 1 ? "member" : "members"}
       </p>
 
-      <ul className="mt-3 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {results.map((f) => (
-          <li key={f.email || f.name}>
-            <FacultyCard person={{ ...f, deptName: deptNames[f.dept] }} showDept={dept === "All"} />
-          </li>
-        ))}
-      </ul>
+      {grouped ? (
+        groups.map((g) => (
+          <section key={g.code} className="mt-8">
+            <h2 className="border-b-2 border-brand-800 pb-2 text-xl font-bold">
+              {g.title} <span className="text-base font-normal text-slate-500">({g.people.length})</span>
+            </h2>
+            <Grid people={g.people} />
+          </section>
+        ))
+      ) : (
+        <Grid people={results} showDept={dept === "All"} />
+      )}
 
       {results.length === 0 && (
         <p className="mt-6 rounded border border-dashed border-slate-300 p-10 text-center text-slate-500">No faculty match your search.</p>

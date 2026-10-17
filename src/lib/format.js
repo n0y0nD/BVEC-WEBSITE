@@ -1,21 +1,15 @@
-const formatter = new Intl.DateTimeFormat("en-IN", {
-  day: "numeric",
-  month: "short",
-  year: "numeric",
-  timeZone: "Asia/Kolkata",
-});
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-export function formatDate(iso) {
-  return formatter.format(new Date(`${iso}T00:00:00+05:30`));
+// Dates are stored as "YYYY-MM-DD" strings, so they are read directly
+// instead of through Date (which would depend on the server's time zone).
+export function dateParts(iso) {
+  const [year, month, day] = iso.split("-");
+  return { day, month: MONTHS[Number(month) - 1], year };
 }
 
-export function dateParts(iso) {
-  const d = new Date(`${iso}T00:00:00+05:30`);
-  return {
-    day: d.toLocaleString("en-IN", { day: "2-digit", timeZone: "Asia/Kolkata" }),
-    month: d.toLocaleString("en-IN", { month: "short", timeZone: "Asia/Kolkata" }),
-    year: d.toLocaleString("en-IN", { year: "numeric", timeZone: "Asia/Kolkata" }),
-  };
+export function formatDate(iso) {
+  const { day, month, year } = dateParts(iso);
+  return `${Number(day)} ${month} ${year}`;
 }
 
 export function cn(...classes) {

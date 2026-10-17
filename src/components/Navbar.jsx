@@ -79,7 +79,8 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-40 bg-brand-800 shadow-md" aria-label="Main">
       <div className="container-page">
-        <ul className="hidden items-center lg:flex">
+        <div className="hidden items-center justify-between lg:flex">
+        <ul className="flex items-center">
           {navLinks.map((link) =>
             link.children ? (
               <Dropdown key={link.label} link={link} pathname={pathname} />
@@ -96,6 +97,13 @@ export default function Navbar() {
             )
           )}
         </ul>
+        <Link
+          href="/admissions"
+          className="rounded bg-accent-600 px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-accent-700"
+        >
+          Admissions 2026
+        </Link>
+        </div>
 
         <div className="flex h-12 items-center justify-between lg:hidden">
           <button

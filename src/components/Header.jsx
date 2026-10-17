@@ -42,14 +42,10 @@ export default function Header() {
       <header className="border-b-4 border-gold-500 bg-white">
         <div className="container-page flex items-center justify-between gap-6 py-4">
           <Logo />
-          <div className="hidden shrink-0 flex-col items-end gap-2 lg:flex">
-            <Link
-              href="/admissions"
-              className="rounded bg-accent-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-700"
-            >
-              Admissions 2026
-            </Link>
-            <span className="text-xs text-slate-500">Under DTE, Govt. of Assam</span>
+          <div className="hidden shrink-0 border-l border-slate-200 pl-6 text-right lg:block">
+            <p className="font-serif text-lg italic text-accent-700">“Minds Towards Innovation”</p>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Estd. 2017</p>
+            <p className="mt-0.5 text-xs text-slate-500">Under DTE, Govt. of Assam</p>
           </div>
         </div>
       </header>

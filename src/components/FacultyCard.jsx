@@ -4,7 +4,7 @@ import { Portrait } from "./ui";
 export default function FacultyCard({ person, showDept = false }) {
   return (
     <article className="flex h-full flex-col overflow-hidden rounded border border-slate-200 bg-white shadow-sm">
-      <Portrait src={person.photo} name={person.name} className="aspect-[4/5] w-full" sizes="(min-width: 1024px) 240px, 50vw" />
+      <Portrait src={person.photo} name={person.name} className="aspect-square w-full" sizes="(min-width: 1024px) 240px, 50vw" />
       <div className="flex flex-1 flex-col border-t-[3px] border-accent-600 p-4">
         <h3 className="text-base font-bold leading-snug">{person.name}</h3>
         <p className="text-sm font-medium text-accent-700">{person.role}</p>

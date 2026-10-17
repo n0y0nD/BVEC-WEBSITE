@@ -39,12 +39,12 @@ export default function NoticeItem({ notice, compact = false }) {
         <p className={`mt-1 font-medium text-slate-800 group-hover:text-brand-800 group-hover:underline ${compact ? "text-sm leading-snug" : ""}`}>
           {notice.title}
         </p>
-        {!compact && (
-          <p className="mt-1 inline-flex items-center gap-1 text-xs text-slate-500">
-            <FileText className="size-3.5 text-accent-600" aria-hidden /> PDF
-          </p>
-        )}
       </div>
+      {!compact && (
+        <span className="hidden shrink-0 items-center gap-1 self-center rounded border border-slate-200 px-2 py-1 text-xs font-semibold text-slate-500 group-hover:border-accent-600 group-hover:text-accent-700 sm:inline-flex">
+          <FileText className="size-3.5" aria-hidden /> PDF
+        </span>
+      )}
       <span className="sr-only">(opens in a new tab)</span>
     </a>
   );

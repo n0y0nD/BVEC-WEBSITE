@@ -55,12 +55,15 @@ export default function AboutPage() {
 
       <section className="bg-slate-50 py-14">
         <div className="container-page grid grid-cols-1 gap-6 md:grid-cols-2">
-          <Card className="border-t-4 border-t-brand-800">
+          <Card className="flex flex-col border-t-4 border-t-brand-800">
             <h2 className="text-2xl font-bold">Vision</h2>
-            <p className="mt-3">
-              Advancing technical education in Assam through excellence, collaboration and innovation — nurturing
-              competent, innovative and socially responsible engineers.
-            </p>
+            <div className="flex flex-1 items-center">
+              <p className="relative mt-4 pl-8 font-serif text-xl italic leading-relaxed text-brand-900">
+                <span className="absolute left-0 top-[-0.4rem] font-serif text-5xl leading-none text-gold-500" aria-hidden>“</span>
+                Advancing technical education in Assam through excellence, collaboration and innovation — nurturing
+                competent, innovative and socially responsible engineers.
+              </p>
+            </div>
           </Card>
           <Card className="border-t-4 border-t-accent-600">
             <h2 className="text-2xl font-bold">Mission</h2>

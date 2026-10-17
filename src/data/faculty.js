@@ -279,11 +279,11 @@ export const faculty = [
 
 export const facultyDepartments = [
   { code: "All", label: "All departments" },
-  { code: "CSE", label: "Computer Science" },
-  { code: "ETE", label: "Electronics & Telecom" },
-  { code: "CE", label: "Civil" },
-  { code: "ME", label: "Mechanical" },
-  { code: "BSH", label: "Sciences & Humanities" },
+  { code: "CSE", label: "Computer Science", title: "Computer Science & Engineering" },
+  { code: "ETE", label: "Electronics & Telecom", title: "Electronics & Telecommunication Engineering" },
+  { code: "CE", label: "Civil", title: "Civil Engineering" },
+  { code: "ME", label: "Mechanical", title: "Mechanical Engineering" },
+  { code: "BSH", label: "Sciences & Humanities", title: "Basic Sciences & Humanities" },
 ];
 
 export const facultyByDept = (code) => faculty.filter((f) => f.dept === code);
