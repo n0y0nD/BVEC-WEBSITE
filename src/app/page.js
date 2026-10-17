@@ -6,15 +6,16 @@ import {
   Award,
   BookOpen,
   Building2,
-  CalendarDays,
+  FileText,
   FlaskConical,
+  Hammer,
+  Home,
   GraduationCap,
   Library,
   Megaphone,
+  Quote,
   ShieldCheck,
-  Trophy,
   Users,
-  Wifi,
 } from "lucide-react";
 import logo from "../../public/images/bvec-logo.png";
 import Reveal from "@/components/Reveal";
@@ -23,8 +24,8 @@ import NoticeItem from "@/components/NoticeItem";
 import { ButtonLink, Card, Eyebrow, SectionHeading } from "@/components/ui";
 import { site, stats } from "@/data/site";
 import { departments } from "@/data/departments";
-import { events, notices } from "@/data/notices";
-import { dateParts } from "@/lib/format";
+import { notices } from "@/data/notices";
+import { documents, principal } from "@/data/college";
 
 const quickLinks = [
   {
@@ -43,22 +44,24 @@ const quickLinks = [
     href: "/notices",
     icon: Megaphone,
     title: "Notices",
-    text: "Exam schedules, events and announcements from the college office.",
+    text: "Admission, academic and tender notices, each linked to the official PDF.",
   },
   {
     href: "/faculty",
     icon: Users,
     title: "Faculty",
-    text: "Meet the teachers and mentors across every department.",
+    text: "Meet the 30+ teachers across the engineering and science departments.",
   },
 ];
 
 const campus = [
-  { icon: Library, title: "Central library", text: "Textbooks, references and journals for every branch." },
-  { icon: FlaskConical, title: "Laboratories", text: "Hands-on labs for programming, electronics, materials and machines." },
-  { icon: Wifi, title: "Connected campus", text: "Internet access for coursework, research and online learning." },
-  { icon: Trophy, title: "Clubs & fests", text: "Technical, cultural and sports activities run by students." },
+  { icon: Home, title: "Solar-lit hostels", text: "Separate boys' and girls' hostels with 80 seats, solar lighting and 24×7 security." },
+  { icon: Library, title: "Central library", text: "In the Civil Engineering building, with an online catalogue and ONOS access." },
+  { icon: FlaskConical, title: "Computer centre", text: "A well-equipped computer centre run by CSE for students of every branch." },
+  { icon: Hammer, title: "Central workshop", text: "Hands-on experience of basic manufacturing processes for all branches." },
 ];
+
+const keyDocs = [documents.academic[0], documents.aicte[0], documents.academic[1]];
 
 const highlights = [
   { icon: ShieldCheck, text: "Run by the Directorate of Technical Education, Govt. of Assam" },
@@ -82,7 +85,7 @@ export default function HomePage() {
             <Reveal>
               <Eyebrow>
                 <span className="size-1.5 rounded-full bg-emerald-500" aria-hidden />
-                Admissions open through Assam CEE
+                First state govt. engineering college of the Barak Valley
               </Eyebrow>
             </Reveal>
             <Reveal delay={80}>
@@ -139,10 +142,18 @@ export default function HomePage() {
             </Link>
             <div className="relative flex-1 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
               <div className="animate-marquee flex w-max gap-12 whitespace-nowrap text-sm text-slate-600 hover:[animation-play-state:paused] dark:text-slate-300">
-                {[...notices, ...notices].map((n, i) => (
-                  <Link key={`${n.id}-${i}`} href="/notices" className="hover:text-brand-700 dark:hover:text-brand-300" aria-hidden={i >= notices.length} tabIndex={i >= notices.length ? -1 : undefined}>
+                {[...notices.slice(0, 8), ...notices.slice(0, 8)].map((n, i) => (
+                  <a
+                    key={`${n.id}-${i}`}
+                    href={n.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-brand-700 dark:hover:text-brand-300"
+                    aria-hidden={i >= 8}
+                    tabIndex={i >= 8 ? -1 : undefined}
+                  >
                     {n.title}
-                  </Link>
+                  </a>
                 ))}
               </div>
             </div>
@@ -194,7 +205,7 @@ export default function HomePage() {
               align="left"
               eyebrow="About BVEC"
               title="A government engineering college for the Barak Valley"
-              description="BVEC started full operation in 2017 under the Directorate of Technical Education, Assam, to bring quality technical education closer to students of the Barak Valley and the wider North-East."
+              description="The first state government engineering college in the Barak Valley and the fifth in Assam. Set up on the initiative of the Government of Assam in 2009, BVEC began full operation in 2017 on a 60-bigha campus at Nirala."
             />
             <ul className="mt-8 space-y-4">
               {highlights.map(({ icon: Icon, text }) => (
@@ -288,30 +299,53 @@ export default function HomePage() {
           </div>
 
           <div>
-            <SectionHeading align="left" eyebrow="Calendar" title="Upcoming" />
+            <SectionHeading align="left" eyebrow="Documents" title="Quick downloads" />
             <Card className="mt-8 divide-y divide-slate-100 p-2 dark:divide-white/10">
-              {events.map((e) => {
-                const { day, month } = dateParts(e.date);
-                return (
-                  <div key={e.title} className="flex items-center gap-4 p-4">
-                    <div className="grid size-14 shrink-0 place-items-center rounded-2xl bg-brand-600 text-white">
-                      <div className="text-center leading-none">
-                        <p className="font-display text-lg font-bold">{day}</p>
-                        <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider opacity-80">{month}</p>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-slate-900 dark:text-white">{e.title}</p>
-                      <p className="mt-0.5 flex items-center gap-1.5 text-sm text-slate-500">
-                        <CalendarDays className="size-3.5" aria-hidden /> {e.place}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
+              {keyDocs.map((d) => (
+                <a
+                  key={d.url}
+                  href={d.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-4 rounded-2xl p-4 transition hover:bg-slate-50 dark:hover:bg-white/5"
+                >
+                  <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-brand-600 text-white">
+                    <FileText className="size-5" aria-hidden />
+                  </span>
+                  <span className="font-semibold text-slate-900 group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-300">
+                    {d.title}
+                  </span>
+                </a>
+              ))}
             </Card>
+            <Link href="/downloads" className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:underline dark:text-brand-300">
+              All documents <ArrowRight className="size-4" />
+            </Link>
           </div>
         </div>
+      </section>
+
+      {/* Principal */}
+      <section className="container-page pt-24">
+        <Reveal>
+          <Card className="grid gap-8 p-8 sm:p-12 lg:grid-cols-[auto_1fr] lg:items-center">
+            <span className="grid size-24 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-indigo-600 font-display text-3xl font-bold text-white shadow-xl shadow-brand-600/30">
+              KLB
+            </span>
+            <div>
+              <Quote className="size-8 text-brand-300 dark:text-brand-500/50" aria-hidden />
+              <p className="mt-3 text-lg leading-relaxed text-slate-700 sm:text-xl dark:text-slate-300">
+                At BVEC, we are committed to nurturing competent, innovative, and socially responsible engineers who can
+                meet the challenges of an ever-evolving technological world.
+              </p>
+              <p className="mt-5 font-semibold text-slate-900 dark:text-white">{principal.name}</p>
+              <p className="text-sm text-slate-500">Principal, {site.name}</p>
+              <Link href="/administration#message" className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:underline dark:text-brand-300">
+                Read the full message <ArrowRight className="size-4" />
+              </Link>
+            </div>
+          </Card>
+        </Reveal>
       </section>
 
       {/* CTA */}
@@ -324,7 +358,7 @@ export default function HomePage() {
               Ready to join BVEC?
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-lg text-brand-100">
-              Take the first step towards your engineering degree. Our admissions guide walks you through every stage.
+              Admission is through Assam CEE for the first year and JLEE for lateral entry. Our admissions guide walks you through every stage.
             </p>
             <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
               <ButtonLink href="/admissions" variant="light">

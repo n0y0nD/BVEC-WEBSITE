@@ -1,4 +1,4 @@
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, Navigation } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import { Card, PageHeader } from "@/components/ui";
 import { site } from "@/data/site";
@@ -20,12 +20,40 @@ export default function ContactPage() {
           {site.address.line2}
           <br />
           {site.address.line3}
+          <br />
+          <a href={site.mapUrl} target="_blank" rel="noopener noreferrer" className="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:underline dark:text-brand-300">
+            Maps & directions <ArrowUpRight className="size-3.5" aria-hidden />
+          </a>
         </>
       ),
     },
-    { icon: Phone, label: "Phone", value: <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="hover:text-brand-600">{site.phone}</a> },
-    { icon: Mail, label: "Email", value: <a href={`mailto:${site.email}`} className="hover:text-brand-600">{site.email}</a> },
-    { icon: Clock, label: "Office hours", value: site.officeHours },
+    {
+      icon: Mail,
+      label: "Email",
+      value: (
+        <span className="block space-y-1.5">
+          {site.emails.map((e) => (
+            <span key={e.value} className="block">
+              <span className="text-sm text-slate-500">{e.label}: </span>
+              <a href={`mailto:${e.value}`} className="hover:text-brand-600">{e.value}</a>
+            </span>
+          ))}
+        </span>
+      ),
+    },
+    {
+      icon: Navigation,
+      label: "Getting here",
+      value: (
+        <span className="block space-y-1">
+          {site.distances.map((d) => (
+            <span key={d.place} className="block">
+              {d.distance} from {d.place}
+            </span>
+          ))}
+        </span>
+      ),
+    },
   ];
 
   return (
@@ -54,7 +82,7 @@ export default function ContactPage() {
         <Card className="p-6 sm:p-8">
           <h2 className="text-2xl font-bold">Send a message</h2>
           <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-            Fill in the form and your email app will open with the message ready to send.
+            Fill in the form and your email app will open with a message to the Principal&apos;s office, ready to send.
           </p>
           <ContactForm email={site.email} />
         </Card>

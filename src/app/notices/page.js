@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/ui";
 
 export const metadata = {
   title: "Notices",
-  description: "Latest notices, exam schedules, admission updates and events at BVEC.",
+  description: "Latest admission, academic and tender notices from BVEC.",
 };
 
 export default function NoticesPage() {
@@ -11,7 +11,7 @@ export default function NoticesPage() {
     <>
       <PageHeader
         title="Notice board"
-        description="Exam schedules, admission updates, events and announcements from the college office."
+        description="Admission, academic and tender notices from the college office. Each notice opens the official PDF."
         crumbs={[{ label: "Notices" }]}
       />
       <section className="container-page max-w-4xl py-16">

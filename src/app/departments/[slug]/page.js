@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Briefcase, CheckCircle2, Clock, GraduationCap, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight, Briefcase, CalendarDays, CheckCircle2, Eye, GraduationCap, Target, UserRound, Users } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import DeptIcon from "@/components/DeptIcon";
 import { ButtonLink, Card } from "@/components/ui";
 import { departments, getDepartment } from "@/data/departments";
+import { facultyByDept } from "@/data/faculty";
 
 export function generateStaticParams() {
   return departments.map((d) => ({ slug: d.slug }));
@@ -25,10 +26,12 @@ export default async function DepartmentPage({ params }) {
   if (!dept) notFound();
 
   const others = departments.filter((d) => d.slug !== dept.slug);
+  const team = facultyByDept(dept.code);
   const facts = [
-    { icon: GraduationCap, label: "Degree", value: "B.Tech" },
-    { icon: Clock, label: "Duration", value: "4 years · 8 semesters" },
+    { icon: GraduationCap, label: "Degree", value: "B.Tech · 4 years" },
+    { icon: CalendarDays, label: "Started", value: dept.started },
     { icon: Users, label: "Annual intake", value: `${dept.intake} students` },
+    { icon: UserRound, label: "Head of Department", value: dept.hod },
   ];
 
   return (
@@ -53,7 +56,7 @@ export default async function DepartmentPage({ params }) {
         </div>
       </section>
 
-      <section className="container-page relative z-10 -mt-8 grid gap-4 sm:grid-cols-3">
+      <section className="container-page relative z-10 -mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {facts.map(({ icon: Icon, label, value }) => (
           <Card key={label} className="flex items-center gap-4 shadow-lg">
             <Icon className="size-6 text-brand-600 dark:text-brand-300" aria-hidden />
@@ -69,7 +72,36 @@ export default async function DepartmentPage({ params }) {
         <div>
           <Reveal>
             <h2 className="text-2xl font-bold sm:text-3xl">About the department</h2>
-            <p className="mt-4 text-lg leading-relaxed text-slate-600 dark:text-slate-400">{dept.overview}</p>
+            {dept.about.map((p) => (
+              <p key={p.slice(0, 32)} className="mt-4 text-lg leading-relaxed text-slate-600 dark:text-slate-400">{p}</p>
+            ))}
+          </Reveal>
+          {dept.vision && (
+            <Reveal>
+              <div className="mt-14 flex items-center gap-3">
+                <Eye className="size-6 text-brand-600 dark:text-brand-300" aria-hidden />
+                <h2 className="text-2xl font-bold sm:text-3xl">Vision</h2>
+              </div>
+              <blockquote className="mt-4 border-l-4 border-brand-500 pl-5 text-lg italic leading-relaxed text-slate-700 dark:text-slate-300">
+                {dept.vision}
+              </blockquote>
+            </Reveal>
+          )}
+          <Reveal>
+            <div className="mt-14 flex items-center gap-3">
+              <Target className="size-6 text-brand-600 dark:text-brand-300" aria-hidden />
+              <h2 className="text-2xl font-bold sm:text-3xl">Mission</h2>
+            </div>
+            <ol className="mt-6 space-y-4">
+              {dept.mission.map((m, i) => (
+                <li key={m} className="flex gap-4">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-brand-50 font-display text-sm font-bold text-brand-700 dark:bg-brand-500/10 dark:text-brand-300">
+                    {i + 1}
+                  </span>
+                  <span className="pt-1 text-slate-700 dark:text-slate-300">{m}</span>
+                </li>
+              ))}
+            </ol>
           </Reveal>
           <Reveal delay={100}>
             <h2 className="mt-14 text-2xl font-bold sm:text-3xl">What you will study</h2>
@@ -85,6 +117,23 @@ export default async function DepartmentPage({ params }) {
         </div>
 
         <aside className="space-y-6">
+          <Card className="p-7">
+            <div className="flex items-center gap-2">
+              <Users className="size-5 text-brand-600 dark:text-brand-300" aria-hidden />
+              <h2 className="text-lg font-bold">Faculty</h2>
+            </div>
+            <ul className="mt-4 divide-y divide-slate-100 dark:divide-white/10">
+              {team.map((f) => (
+                <li key={f.name} className="py-2.5">
+                  <p className="font-medium text-slate-900 dark:text-white">{f.name}</p>
+                  <p className="text-sm text-slate-500">{f.role}</p>
+                </li>
+              ))}
+            </ul>
+            <Link href="/faculty" className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:underline dark:text-brand-300">
+              Full faculty directory <ArrowRight className="size-4" />
+            </Link>
+          </Card>
           <Card className="p-7">
             <div className="flex items-center gap-2">
               <Briefcase className="size-5 text-brand-600 dark:text-brand-300" aria-hidden />

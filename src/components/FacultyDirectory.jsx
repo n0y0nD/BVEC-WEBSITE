@@ -14,7 +14,7 @@ export default function FacultyDirectory() {
     return faculty.filter(
       (f) =>
         (dept === "All" || f.dept === dept) &&
-        (!q || [f.name, f.role, f.area, f.dept].some((v) => v.toLowerCase().includes(q)))
+        (!q || [f.name, f.role, f.area, f.dept].some((v) => v?.toLowerCase().includes(q)))
     );
   }, [dept, query]);
 
@@ -46,7 +46,7 @@ export default function FacultyDirectory() {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search by name or subject"
+            placeholder="Search by name or role"
             className="w-full rounded-full border-0 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-900 ring-1 ring-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-white/5 dark:text-white dark:ring-white/10"
           />
         </label>
@@ -57,9 +57,9 @@ export default function FacultyDirectory() {
       </p>
 
       <ul className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {results.map((f, i) => (
+        {results.map((f) => (
           <li
-            key={`${f.dept}-${f.area}-${i}`}
+            key={f.name}
             className="group rounded-3xl border border-slate-200/80 bg-white p-6 text-center transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/5 dark:border-white/10 dark:bg-slate-900/60"
           >
             <span className="mx-auto grid size-20 place-items-center rounded-full bg-gradient-to-br from-brand-100 to-indigo-100 text-brand-600 ring-4 ring-white dark:from-brand-500/20 dark:to-indigo-500/20 dark:text-brand-300 dark:ring-slate-900">
@@ -69,7 +69,9 @@ export default function FacultyDirectory() {
             <p className="text-sm text-slate-600 dark:text-slate-400">{f.role}</p>
             <div className="mt-4 flex flex-wrap justify-center gap-2">
               <span className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-semibold text-brand-700 dark:bg-brand-500/10 dark:text-brand-300">{f.dept}</span>
-              <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600 dark:bg-white/10 dark:text-slate-300">{f.area}</span>
+              {f.area && (
+                <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600 dark:bg-white/10 dark:text-slate-300">{f.area}</span>
+              )}
             </div>
           </li>
         ))}

@@ -28,18 +28,24 @@ Other scripts:
 | `/admissions`             | Admission steps, eligibility, documents, FAQ |
 | `/faculty`                | Faculty directory with filter & search      |
 | `/notices`                | Notice board with filter & search           |
+| `/administration`         | Principal, Principal's message, office staff |
+| `/placements`             | Training & Placement record, recruiters, MoUs |
+| `/facilities`             | Hostels, library, health centre             |
+| `/committees`             | Grievance redressal and other committees    |
+| `/downloads`              | Academic docs, AICTE approvals, magazine, RTI |
 | `/contact`                | Contact details, message form and map       |
 
 ## Editing content
 
 All content lives in plain JavaScript files in `src/data/` — no code changes needed:
 
-- `site.js` — college name, address, phone, email, menu links, headline stats
+- `site.js` — college name, address, emails, menu links, headline stats
 - `departments.js` — departments (adding one here also creates its page)
-- `notices.js` — notices and upcoming events (newest first)
+- `notices.js` — notices (newest first), each linking to its PDF
 - `faculty.js` — faculty directory
+- `college.js` — principal, staff, placement, hostel, committees, documents, RTI
 
-> The notices, faculty profiles and phone number are **placeholders** for the design. Replace them with official information before going live.
+> Content is taken from the official website, [bvec.ac.in](https://www.bvec.ac.in/). Documents and notice PDFs link to their copies there. To add a notice, add its PDF id, date, category and title to `notices.js`.
 
 ## Project structure
 

@@ -1,7 +1,11 @@
-import { ArrowRight, ChevronDown, ClipboardList, FileCheck2, FileText, GraduationCap, PenLine, School } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, ChevronDown, ClipboardList, FileCheck2, FileText, GraduationCap, PenLine, School } from "lucide-react";
+import NoticeItem from "@/components/NoticeItem";
 import Reveal from "@/components/Reveal";
 import { ButtonLink, Card, PageHeader, SectionHeading } from "@/components/ui";
 import { departments } from "@/data/departments";
+import { notices } from "@/data/notices";
+import { pmVidyalaxmiUrl } from "@/data/college";
 
 export const metadata = {
   title: "Admissions",
@@ -66,9 +70,14 @@ const faqs = [
     q: "Where can I find the exact dates and eligibility?",
     a: "Dates, fees and eligibility can change every year. Always check the official CEE / JLEE notification and the Notices page.",
   },
+  {
+    q: "Is financial help available?",
+    a: "Students can apply for education loans through the Government of India's PM Vidyalaxmi portal. Scholarship notices are posted on the Notices page.",
+  },
 ];
 
 export default function AdmissionsPage() {
+  const admissionNotices = notices.filter((n) => n.category === "Admission").slice(0, 5);
   return (
     <>
       <PageHeader
@@ -129,7 +138,24 @@ export default function AdmissionsPage() {
         </div>
       </section>
 
-      <section className="container-page grid gap-12 py-20 lg:grid-cols-2">
+      <section className="container-page max-w-4xl py-20">
+        <SectionHeading eyebrow="2026 admissions" title="Latest admission notices" />
+        <div className="mt-10 space-y-3">
+          {admissionNotices.map((n) => (
+            <NoticeItem key={n.id} notice={n} />
+          ))}
+        </div>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-semibold">
+          <Link href="/notices" className="inline-flex items-center gap-1 text-brand-600 hover:underline dark:text-brand-300">
+            All notices <ArrowRight className="size-4" />
+          </Link>
+          <a href={pmVidyalaxmiUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-brand-600 hover:underline dark:text-brand-300">
+            PM Vidyalaxmi education loans <ArrowUpRight className="size-4" />
+          </a>
+        </div>
+      </section>
+
+      <section className="container-page grid gap-12 border-t border-slate-200/80 py-20 lg:grid-cols-2 dark:border-white/10">
         <div>
           <SectionHeading align="left" eyebrow="Checklist" title="Documents to bring" description="Carry the originals and a set of self-attested photocopies when you report." />
           <ul className="mt-8 grid gap-3">

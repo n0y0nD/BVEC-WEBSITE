@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { ArrowRight, Users } from "lucide-react";
+import { ArrowRight, FlaskConical, Users } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import DeptIcon from "@/components/DeptIcon";
-import { PageHeader } from "@/components/ui";
-import { departments } from "@/data/departments";
+import { Card, PageHeader, SectionHeading } from "@/components/ui";
+import { departments, supportingDepartments } from "@/data/departments";
 
 export const metadata = {
   title: "Departments",
@@ -51,6 +51,31 @@ export default function DepartmentsPage() {
             </Link>
           </Reveal>
         ))}
+      </section>
+
+      <section className="bg-slate-50 py-20 dark:bg-slate-900/40">
+        <div className="container-page">
+          <SectionHeading
+            eyebrow="Basic Sciences & Humanities"
+            title="Supporting departments"
+            description="These departments teach students of every branch, mainly in the first year."
+          />
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {supportingDepartments.map((d, i) => (
+              <Reveal key={d.name} delay={i * 80}>
+                <Card className="h-full">
+                  <FlaskConical className="size-7 text-brand-600 dark:text-brand-300" aria-hidden />
+                  <h3 className="mt-4 text-lg font-bold">{d.name}</h3>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{d.text}</p>
+                  <p className="mt-4 text-xs text-slate-500">
+                    Since {d.started}
+                    {d.hod && <> · HoD: {d.hod}</>}
+                  </p>
+                </Card>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </section>
     </>
   );

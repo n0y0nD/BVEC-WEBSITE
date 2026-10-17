@@ -1,9 +1,10 @@
 import Image from "next/image";
-import { Award, BookOpen, Compass, Eye, Lightbulb, ShieldCheck, Target, Users } from "lucide-react";
+import { Award, BookOpen, Compass, Eye, Lightbulb, MapPin, ShieldCheck, Target, Users } from "lucide-react";
 import logo from "../../../public/images/bvec-logo.png";
 import Reveal from "@/components/Reveal";
 import { ButtonLink, Card, PageHeader, SectionHeading } from "@/components/ui";
 import { site, stats } from "@/data/site";
+import { aboutText } from "@/data/college";
 
 export const metadata = {
   title: "About",
@@ -18,10 +19,17 @@ const values = [
 ];
 
 const timeline = [
-  { year: "2017", text: "BVEC begins full operation under the Directorate of Technical Education, Assam." },
-  { year: "2017", text: "First B.Tech batches admitted through the Assam Combined Entrance Examination (CEE)." },
-  { year: "2020", text: "Department of Mechanical Engineering starts its B.Tech programme." },
+  { year: "2009", text: "The Government of Assam takes the initiative to set up an engineering college in the Barak Valley." },
+  { year: "2017", text: "BVEC begins full operation under DTE Assam, with Computer Science, Electronics & Telecommunication and the science departments." },
+  { year: "2020", text: "The Civil and Mechanical Engineering departments start their B.Tech programmes." },
   { year: "Today", text: "Four B.Tech programmes with 60 seats each, affiliated to ASTU and approved by AICTE." },
+];
+
+const mission = [
+  "Develop technically proficient professionals with analytical, leadership and ethical values.",
+  "Foster research, creativity and lifelong learning.",
+  "Encourage sports, cultural, technical and community activities for holistic development.",
+  "Promote skill development, industry partnerships, innovation and entrepreneurship for the region's growth.",
 ];
 
 export default function AboutPage() {
@@ -39,8 +47,9 @@ export default function AboutPage() {
             align="left"
             eyebrow="Who we are"
             title="Minds towards innovation"
-            description="BVEC started its full-fledged operation in 2017 under the purview of the Directorate of Technical Education (DTE), Assam. The college is approved by AICTE, New Delhi and its B.Tech programmes are affiliated to Assam Science and Technology University (ASTU), Guwahati."
+            description={aboutText[0]}
           />
+          <p className="mt-5 text-slate-600 dark:text-slate-400">{aboutText[1]}</p>
           <p className="mt-5 text-slate-600 dark:text-slate-400">
             Students are admitted to the first year through the Assam Combined Entrance Examination (CEE), and to the
             second year through the Joint Lateral Entrance Examination (JLEE). The college offers B.Tech degrees in
@@ -62,8 +71,8 @@ export default function AboutPage() {
               <span className="grid size-12 place-items-center rounded-2xl bg-brand-600 text-white"><Eye className="size-6" aria-hidden /></span>
               <h2 className="mt-6 text-2xl font-bold">Our vision</h2>
               <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">
-                To be a centre of excellence in technical education in the North-East, producing engineers who are
-                skilled, innovative and committed to the development of society.
+                Advancing technical education in Assam through excellence, collaboration and innovation — nurturing
+                competent, innovative and socially responsible engineers.
               </p>
             </Card>
           </Reveal>
@@ -72,10 +81,9 @@ export default function AboutPage() {
               <span className="grid size-12 place-items-center rounded-2xl bg-accent-500 text-white"><Target className="size-6" aria-hidden /></span>
               <h2 className="mt-6 text-2xl font-bold">Our mission</h2>
               <ul className="mt-3 list-disc space-y-2 pl-5 leading-relaxed text-slate-600 marker:text-brand-500 dark:text-slate-400">
-                <li>Deliver strong fundamentals through quality teaching and hands-on learning.</li>
-                <li>Build problem-solving, teamwork and communication skills.</li>
-                <li>Encourage research, entrepreneurship and lifelong learning.</li>
-                <li>Instil ethics and a sense of responsibility towards society.</li>
+                {mission.map((m) => (
+                  <li key={m}>{m}</li>
+                ))}
               </ul>
             </Card>
           </Reveal>
@@ -140,7 +148,22 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="container-page py-20 text-center">
+      <section className="container-page py-20">
+        <SectionHeading eyebrow="Location" title="Getting to the campus" description="The campus at Nirala is connected to the National Highway by PWD rural roads." />
+        <div className="mt-12 grid gap-5 sm:grid-cols-3">
+          {site.distances.map((d, i) => (
+            <Reveal key={d.place} delay={i * 80}>
+              <Card className="h-full text-center">
+                <MapPin className="mx-auto size-6 text-brand-600 dark:text-brand-300" aria-hidden />
+                <p className="mt-3 font-display text-3xl font-extrabold text-slate-900 dark:text-white">{d.distance}</p>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">from {d.place}</p>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section className="container-page border-t border-slate-200/80 py-20 text-center dark:border-white/10">
         <h2 className="text-3xl font-bold">Want to see the programmes?</h2>
         <p className="mx-auto mt-3 max-w-xl text-slate-600 dark:text-slate-400">Explore what you can study at BVEC and where it can take you.</p>
         <ButtonLink href="/departments" className="mt-8">Explore departments</ButtonLink>

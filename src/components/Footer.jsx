@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import Logo from "./Logo";
 import { site } from "@/data/site";
 import { departments } from "@/data/departments";
@@ -13,6 +13,9 @@ const columns = [
       { href: "/admissions", label: "Admissions" },
       { href: "/faculty", label: "Faculty" },
       { href: "/notices", label: "Notices" },
+      { href: "/placements", label: "Training & Placement" },
+      { href: "/committees", label: "Committees" },
+      { href: "/downloads", label: "Downloads & RTI" },
       { href: "/contact", label: "Contact" },
     ],
   },
@@ -54,13 +57,9 @@ export default function Footer() {
           <ul className="mt-4 space-y-4 text-sm">
             <li className="flex gap-3">
               <MapPin className="mt-0.5 size-4 shrink-0 text-brand-400" aria-hidden />
-              <span>
+              <a href={site.mapUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white">
                 {site.address.line2}, {site.address.line3}
-              </span>
-            </li>
-            <li className="flex gap-3">
-              <Phone className="mt-0.5 size-4 shrink-0 text-brand-400" aria-hidden />
-              <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="hover:text-white">{site.phone}</a>
+              </a>
             </li>
             <li className="flex gap-3">
               <Mail className="mt-0.5 size-4 shrink-0 text-brand-400" aria-hidden />
@@ -73,7 +72,13 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="container-page flex flex-col items-center justify-between gap-2 py-6 text-xs sm:flex-row">
           <p>© {new Date().getFullYear()} Barak Valley Engineering College. All rights reserved.</p>
-          <p className="text-slate-500">UI/UX project by Nayanjyoti Das.</p>
+          <p className="text-slate-500">
+            Content from{" "}
+            <a href="https://www.bvec.ac.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-white">
+              bvec.ac.in
+            </a>
+            . UI/UX project by Nayanjyoti Das.
+          </p>
         </div>
       </div>
     </footer>

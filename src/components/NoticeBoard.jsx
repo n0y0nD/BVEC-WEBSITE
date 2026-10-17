@@ -15,7 +15,7 @@ export default function NoticeBoard() {
     return notices.filter(
       (n) =>
         (category === "All" || n.category === category) &&
-        (!q || n.title.toLowerCase().includes(q) || n.summary.toLowerCase().includes(q))
+        (!q || n.title.toLowerCase().includes(q))
     );
   }, [category, query]);
 
