@@ -1,7 +1,7 @@
-import { ArrowUpRight, CheckCircle2, HeartPulse, Library, Mail } from "lucide-react";
-import Reveal from "@/components/Reveal";
+import Image from "next/image";
+import { CheckCircle2, Mail } from "lucide-react";
 import DocList from "@/components/DocList";
-import { Card, PageHeader, SectionHeading } from "@/components/ui";
+import { ButtonLink, Card, PageHeader, SectionTitle } from "@/components/ui";
 import { hostel } from "@/data/college";
 import { site } from "@/data/site";
 
@@ -13,73 +13,53 @@ export const metadata = {
 export default function FacilitiesPage() {
   return (
     <>
-      <PageHeader
-        title="Hostels & Library"
-        description="Life on a green, 60-bigha campus surrounded by hillocks and water bodies."
-        crumbs={[{ label: "Hostels & Library" }]}
-      />
+      <PageHeader title="Hostels & Library" description="Facilities on the 60-bigha campus at Nirala." crumbs={[{ label: "Hostels & Library" }]} />
 
-      <section id="hostels" className="container-page grid scroll-mt-24 gap-12 py-20 lg:grid-cols-2">
-        <Reveal>
-          <SectionHeading align="left" eyebrow="Hostels" title={`${hostel.seats} seats, two in-campus hostels`} />
-          <div className="mt-6 space-y-4 text-lg leading-relaxed text-slate-600 dark:text-slate-400">
+      <section id="hostels" className="container-page grid grid-cols-1 scroll-mt-16 gap-10 py-14 lg:grid-cols-2">
+        <div>
+          <SectionTitle title="Hostels" />
+          <div className="mt-6 space-y-4">
             {hostel.text.map((p) => (
               <p key={p.slice(0, 32)}>{p}</p>
             ))}
           </div>
-          <a href={`mailto:${hostel.email}`} className="mt-6 inline-flex items-center gap-2 font-semibold text-brand-600 hover:underline dark:text-brand-300">
-            <Mail className="size-4" aria-hidden /> {hostel.email}
-          </a>
-        </Reveal>
-        <Reveal delay={100}>
-          <ul className="grid gap-3 sm:grid-cols-2">
+          <ul className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2">
             {hostel.features.map((f) => (
-              <li key={f} className="flex items-start gap-3 rounded-2xl border border-slate-200/80 bg-white p-4 dark:border-white/10 dark:bg-slate-900/60">
-                <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-emerald-500" aria-hidden />
-                <span className="font-medium text-slate-800 dark:text-slate-200">{f}</span>
+              <li key={f} className="flex items-start gap-2">
+                <CheckCircle2 className="mt-1 size-4 shrink-0 text-accent-600" aria-hidden /> {f}
               </li>
             ))}
           </ul>
-          <h3 className="mt-10 text-lg font-bold">Hostel documents</h3>
-          <div className="mt-4">
+          <p className="mt-6 text-sm text-slate-600">For hostel queries, write to</p>
+          <a href={`mailto:${hostel.email}`} className="inline-flex items-center gap-2 font-semibold text-brand-700 hover:underline">
+            <Mail className="size-4" aria-hidden /> {hostel.email}
+          </a>
+        </div>
+        <div>
+          <div className="relative aspect-[16/10] overflow-hidden rounded border border-slate-200">
+            <Image src="/images/campus/campus-aerial-2.jpg" alt="Campus buildings at Nirala" fill sizes="(min-width: 1024px) 560px, 100vw" className="object-cover" />
+          </div>
+          <h3 className="mt-8 text-lg font-bold">Hostel Documents</h3>
+          <div className="mt-3">
             <DocList items={hostel.documents} />
           </div>
-        </Reveal>
+        </div>
       </section>
 
-      <section id="library" className="scroll-mt-24 bg-slate-50 py-20 dark:bg-slate-900/40">
-        <div className="container-page grid gap-6 md:grid-cols-2">
-          <Reveal>
-            <Card className="h-full p-8">
-              <span className="grid size-12 place-items-center rounded-2xl bg-brand-600 text-white">
-                <Library className="size-6" aria-hidden />
-              </span>
-              <h2 className="mt-6 text-2xl font-bold">Central library</h2>
-              <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">
-                The Central Library is in the Civil Engineering building. Its website has the online catalogue and access
-                to One Nation One Subscription (ONOS) resources.
-              </p>
-              <a
-                href={site.libraryUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700"
-              >
-                Visit the library website <ArrowUpRight className="size-4" aria-hidden />
-              </a>
-            </Card>
-          </Reveal>
-          <Reveal delay={100}>
-            <Card className="h-full p-8">
-              <span className="grid size-12 place-items-center rounded-2xl bg-rose-500 text-white">
-                <HeartPulse className="size-6" aria-hidden />
-              </span>
-              <h2 className="mt-6 text-2xl font-bold">Health centre</h2>
-              <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">
-                A health centre on campus provides basic medical support. Each hostel also has its own two-bed sick room.
-              </p>
-            </Card>
-          </Reveal>
+      <section id="library" className="scroll-mt-16 bg-slate-50 py-14">
+        <div className="container-page grid grid-cols-1 gap-6 md:grid-cols-2">
+          <Card className="border-t-4 border-t-brand-800">
+            <h2 className="text-2xl font-bold">Central Library</h2>
+            <p className="mt-3">
+              The Central Library is in the Civil Engineering building. Its website has the online catalogue and access to
+              One Nation One Subscription (ONOS) resources.
+            </p>
+            <ButtonLink href={site.libraryUrl} external className="mt-5">Visit the library website</ButtonLink>
+          </Card>
+          <Card className="border-t-4 border-t-accent-600">
+            <h2 className="text-2xl font-bold">Health Centre</h2>
+            <p className="mt-3">A health centre on campus provides basic medical support. Each hostel also has its own two-bed sick room.</p>
+          </Card>
         </div>
       </section>
     </>

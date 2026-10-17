@@ -5,8 +5,6 @@ export const departments = [
     slug: "computer-science-engineering",
     code: "CSE",
     name: "Computer Science & Engineering",
-    icon: "Code",
-    color: "from-blue-500 to-indigo-600",
     tagline: "Software, systems and intelligent machines.",
     summary:
       "Build a strong foundation in programming, algorithms and computer systems, then go further into AI, data and the web.",
@@ -45,8 +43,6 @@ export const departments = [
     slug: "electronics-telecommunication-engineering",
     code: "ETE",
     name: "Electronics & Telecommunication Engineering",
-    icon: "CircuitBoard",
-    color: "from-violet-500 to-fuchsia-600",
     tagline: "Circuits, signals and the systems that connect us.",
     summary:
       "Learn to design electronic circuits, embedded devices and the communication systems behind mobile and internet networks.",
@@ -85,8 +81,6 @@ export const departments = [
     slug: "civil-engineering",
     code: "CE",
     name: "Civil Engineering",
-    icon: "Landmark",
-    color: "from-amber-500 to-orange-600",
     tagline: "Infrastructure for a growing region.",
     summary:
       "Plan, design and build roads, bridges, buildings and water systems that are safe and sustainable.",
@@ -127,8 +121,6 @@ export const departments = [
     slug: "mechanical-engineering",
     code: "ME",
     name: "Mechanical Engineering",
-    icon: "Cog",
-    color: "from-emerald-500 to-teal-600",
     tagline: "Design, energy and manufacturing.",
     summary:
       "From thermodynamics to machine design and manufacturing, learn how machines and energy systems are built.",

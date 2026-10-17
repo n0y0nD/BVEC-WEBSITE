@@ -1,22 +1,13 @@
 import Image from "next/image";
-import { Award, BookOpen, Compass, Eye, Lightbulb, MapPin, ShieldCheck, Target, Users } from "lucide-react";
-import logo from "../../../public/images/bvec-logo.png";
-import Reveal from "@/components/Reveal";
-import { ButtonLink, Card, PageHeader, SectionHeading } from "@/components/ui";
-import { site, stats } from "@/data/site";
+import { MapPin } from "lucide-react";
+import { ButtonLink, Card, PageHeader, SectionTitle } from "@/components/ui";
+import { site } from "@/data/site";
 import { aboutText } from "@/data/college";
 
 export const metadata = {
   title: "About",
-  description: "Learn about Barak Valley Engineering College — its history, vision, mission and affiliations.",
+  description: "History, vision, mission, approvals and location of Barak Valley Engineering College.",
 };
-
-const values = [
-  { icon: Lightbulb, title: "Innovation", text: "Encouraging students to question, experiment and build new things." },
-  { icon: ShieldCheck, title: "Integrity", text: "Honest, ethical practice in learning, research and professional life." },
-  { icon: Users, title: "Inclusion", text: "Affordable, accessible technical education for every student in the region." },
-  { icon: Compass, title: "Responsibility", text: "Engineering that serves society and respects the environment." },
-];
 
 const timeline = [
   { year: "2009", text: "The Government of Assam takes the initiative to set up an engineering college in the Barak Valley." },
@@ -32,141 +23,99 @@ const mission = [
   "Promote skill development, industry partnerships, innovation and entrepreneurship for the region's growth.",
 ];
 
+const recognition = [
+  ["Government of Assam", "Run under the Directorate of Technical Education (DTE), Assam."],
+  ["AICTE approved", "Approved by the All India Council for Technical Education, New Delhi."],
+  ["Affiliated to ASTU", "B.Tech degrees are awarded by Assam Science and Technology University, Guwahati."],
+];
+
 export default function AboutPage() {
   return (
     <>
-      <PageHeader
-        title="About the college"
-        description={`${site.name} is a Government of Assam engineering college in Nirala, Sribhumi — built to bring quality technical education to the Barak Valley.`}
-        crumbs={[{ label: "About" }]}
-      />
+      <PageHeader title="About the College" description="The first state government engineering college in the Barak Valley." crumbs={[{ label: "About" }]} />
 
-      <section className="container-page grid items-center gap-14 py-20 lg:grid-cols-2">
-        <Reveal>
-          <SectionHeading
-            align="left"
-            eyebrow="Who we are"
-            title="Minds towards innovation"
-            description={aboutText[0]}
-          />
-          <p className="mt-5 text-slate-600 dark:text-slate-400">{aboutText[1]}</p>
-          <p className="mt-5 text-slate-600 dark:text-slate-400">
+      <section className="container-page grid grid-cols-1 gap-10 py-14 lg:grid-cols-[1.4fr_1fr]">
+        <div>
+          <SectionTitle title="Our History" />
+          <p className="mt-6">{aboutText[0]}</p>
+          <p className="mt-4">{aboutText[1]}</p>
+          <p className="mt-4">
             Students are admitted to the first year through the Assam Combined Entrance Examination (CEE), and to the
             second year through the Joint Lateral Entrance Examination (JLEE). The college offers B.Tech degrees in
             Computer Science, Electronics & Telecommunication, Civil and Mechanical Engineering.
           </p>
-        </Reveal>
-        <Reveal delay={120}>
-          <div className="relative mx-auto max-w-sm">
-            <div className="absolute inset-0 -z-10 rounded-full bg-brand-500/20 blur-3xl" aria-hidden />
-            <Image src={logo} alt="BVEC emblem" className="w-full rounded-full bg-white p-4 shadow-2xl ring-1 ring-slate-200 dark:ring-white/10" />
+        </div>
+        <figure>
+          <div className="relative aspect-[4/3] overflow-hidden rounded border border-slate-200">
+            <Image src="/images/campus/campus-aerial-1.jpg" alt="Aerial view of the BVEC campus" fill sizes="(min-width: 1024px) 420px, 100vw" className="object-cover" />
           </div>
-        </Reveal>
+          <figcaption className="mt-2 text-sm text-slate-500">The BVEC campus at Nirala, Sribhumi.</figcaption>
+        </figure>
       </section>
 
-      <section className="bg-slate-50 py-20 dark:bg-slate-900/40">
-        <div className="container-page grid gap-6 md:grid-cols-2">
-          <Reveal>
-            <Card className="h-full p-8">
-              <span className="grid size-12 place-items-center rounded-2xl bg-brand-600 text-white"><Eye className="size-6" aria-hidden /></span>
-              <h2 className="mt-6 text-2xl font-bold">Our vision</h2>
-              <p className="mt-3 leading-relaxed text-slate-600 dark:text-slate-400">
-                Advancing technical education in Assam through excellence, collaboration and innovation — nurturing
-                competent, innovative and socially responsible engineers.
-              </p>
-            </Card>
-          </Reveal>
-          <Reveal delay={100}>
-            <Card className="h-full p-8">
-              <span className="grid size-12 place-items-center rounded-2xl bg-accent-500 text-white"><Target className="size-6" aria-hidden /></span>
-              <h2 className="mt-6 text-2xl font-bold">Our mission</h2>
-              <ul className="mt-3 list-disc space-y-2 pl-5 leading-relaxed text-slate-600 marker:text-brand-500 dark:text-slate-400">
-                {mission.map((m) => (
-                  <li key={m}>{m}</li>
-                ))}
-              </ul>
-            </Card>
-          </Reveal>
+      <section className="bg-slate-50 py-14">
+        <div className="container-page grid grid-cols-1 gap-6 md:grid-cols-2">
+          <Card className="border-t-4 border-t-brand-800">
+            <h2 className="text-2xl font-bold">Vision</h2>
+            <p className="mt-3">
+              Advancing technical education in Assam through excellence, collaboration and innovation — nurturing
+              competent, innovative and socially responsible engineers.
+            </p>
+          </Card>
+          <Card className="border-t-4 border-t-accent-600">
+            <h2 className="text-2xl font-bold">Mission</h2>
+            <ul className="mt-3 list-disc space-y-2 pl-5 marker:text-accent-600">
+              {mission.map((m) => (
+                <li key={m}>{m}</li>
+              ))}
+            </ul>
+          </Card>
+        </div>
+        <p className="container-page mt-3 text-sm text-slate-500">From the Principal&apos;s message.</p>
+      </section>
+
+      <section className="container-page grid grid-cols-1 gap-12 py-14 lg:grid-cols-2">
+        <div>
+          <SectionTitle title="Milestones" />
+          <ol className="mt-8 space-y-0 border-l-2 border-brand-200">
+            {timeline.map((t) => (
+              <li key={t.year} className="relative pb-6 pl-6 last:pb-0">
+                <span className="absolute -left-[7px] top-1.5 size-3 rounded-full bg-accent-600" aria-hidden />
+                <p className="font-serif text-lg font-bold text-brand-800">{t.year}</p>
+                <p className="mt-1">{t.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div>
+          <SectionTitle title="Approvals & Affiliation" />
+          <ul className="mt-8 space-y-3">
+            {recognition.map(([t, d]) => (
+              <li key={t} className="rounded border border-slate-200 border-l-4 border-l-gold-500 bg-white p-4">
+                <p className="font-serif font-bold text-brand-900">{t}</p>
+                <p className="mt-1 text-sm text-slate-600">{d}</p>
+              </li>
+            ))}
+          </ul>
+          <ButtonLink href="/downloads#aicte" variant="outline" className="mt-6">View AICTE approval letters</ButtonLink>
         </div>
       </section>
 
-      <section className="container-page py-20">
-        <SectionHeading eyebrow="Our values" title="What we stand for" />
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {values.map(({ icon: Icon, title, text }, i) => (
-            <Reveal key={title} delay={i * 80}>
-              <Card className="h-full">
-                <Icon className="size-7 text-brand-600 dark:text-brand-300" aria-hidden />
-                <h3 className="mt-4 text-lg font-bold">{title}</h3>
-                <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{text}</p>
-              </Card>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-slate-50 py-20 dark:bg-slate-900/40">
-        <div className="container-page grid gap-14 lg:grid-cols-2">
-          <div>
-            <SectionHeading align="left" eyebrow="Milestones" title="Our journey so far" />
-            <ol className="relative mt-10 space-y-8 border-l-2 border-brand-200 pl-8 dark:border-brand-500/30">
-              {timeline.map((t, i) => (
-                <Reveal as="li" key={i} delay={i * 80} className="relative">
-                  <span className="absolute -left-[41px] top-1 size-4 rounded-full border-4 border-white bg-brand-600 dark:border-slate-950" aria-hidden />
-                  <p className="font-display text-sm font-bold uppercase tracking-wider text-brand-600 dark:text-brand-300">{t.year}</p>
-                  <p className="mt-1 text-slate-700 dark:text-slate-300">{t.text}</p>
-                </Reveal>
-              ))}
-            </ol>
-          </div>
-          <div>
-            <SectionHeading align="left" eyebrow="Recognition" title="Approvals & affiliation" />
-            <div className="mt-10 space-y-4">
-              {[
-                { icon: ShieldCheck, title: "Government of Assam", text: "Under the Directorate of Technical Education, Assam." },
-                { icon: Award, title: "AICTE approved", text: "Approved by the All India Council for Technical Education, New Delhi." },
-                { icon: BookOpen, title: "Affiliated to ASTU", text: "B.Tech degrees awarded by Assam Science and Technology University, Guwahati." },
-              ].map(({ icon: Icon, title, text }) => (
-                <Card key={title} className="flex gap-4">
-                  <Icon className="mt-0.5 size-6 shrink-0 text-brand-600 dark:text-brand-300" aria-hidden />
-                  <div>
-                    <h3 className="font-bold">{title}</h3>
-                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{text}</p>
-                  </div>
-                </Card>
-              ))}
-            </div>
-            <div className="mt-8 grid grid-cols-2 gap-4">
-              {stats.map((s) => (
-                <div key={s.label} className="rounded-2xl bg-white p-4 text-center ring-1 ring-slate-200 dark:bg-white/5 dark:ring-white/10">
-                  <p className="font-display text-2xl font-extrabold text-brand-600 dark:text-brand-400">{s.value}</p>
-                  <p className="text-xs text-slate-500">{s.label}</p>
+      <section className="bg-slate-50 py-14">
+        <div className="container-page">
+          <SectionTitle title="Getting to the Campus" subtitle="The campus at Nirala is connected to the National Highway by PWD rural roads." />
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {site.distances.map((d) => (
+              <Card key={d.place} className="flex items-center gap-4">
+                <MapPin className="size-8 shrink-0 text-accent-600" aria-hidden />
+                <div>
+                  <p className="font-serif text-2xl font-bold text-brand-900">{d.distance}</p>
+                  <p className="text-sm text-slate-600">from {d.place}</p>
                 </div>
-              ))}
-            </div>
+              </Card>
+            ))}
           </div>
         </div>
-      </section>
-
-      <section className="container-page py-20">
-        <SectionHeading eyebrow="Location" title="Getting to the campus" description="The campus at Nirala is connected to the National Highway by PWD rural roads." />
-        <div className="mt-12 grid gap-5 sm:grid-cols-3">
-          {site.distances.map((d, i) => (
-            <Reveal key={d.place} delay={i * 80}>
-              <Card className="h-full text-center">
-                <MapPin className="mx-auto size-6 text-brand-600 dark:text-brand-300" aria-hidden />
-                <p className="mt-3 font-display text-3xl font-extrabold text-slate-900 dark:text-white">{d.distance}</p>
-                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">from {d.place}</p>
-              </Card>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="container-page border-t border-slate-200/80 py-20 text-center dark:border-white/10">
-        <h2 className="text-3xl font-bold">Want to see the programmes?</h2>
-        <p className="mx-auto mt-3 max-w-xl text-slate-600 dark:text-slate-400">Explore what you can study at BVEC and where it can take you.</p>
-        <ButtonLink href="/departments" className="mt-8">Explore departments</ButtonLink>
       </section>
     </>
   );

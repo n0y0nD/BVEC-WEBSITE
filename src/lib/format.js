@@ -14,6 +14,7 @@ export function dateParts(iso) {
   return {
     day: d.toLocaleString("en-IN", { day: "2-digit", timeZone: "Asia/Kolkata" }),
     month: d.toLocaleString("en-IN", { month: "short", timeZone: "Asia/Kolkata" }),
+    year: d.toLocaleString("en-IN", { year: "numeric", timeZone: "Asia/Kolkata" }),
   };
 }
 

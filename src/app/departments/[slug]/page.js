@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Briefcase, CalendarDays, CheckCircle2, Eye, GraduationCap, Target, UserRound, Users } from "lucide-react";
-import Reveal from "@/components/Reveal";
-import DeptIcon from "@/components/DeptIcon";
-import { ButtonLink, Card } from "@/components/ui";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
+import FacultyCard from "@/components/FacultyCard";
+import { ButtonLink, PageHeader, SectionTitle } from "@/components/ui";
 import { departments, getDepartment } from "@/data/departments";
 import { facultyByDept } from "@/data/faculty";
 
@@ -25,158 +24,107 @@ export default async function DepartmentPage({ params }) {
   const dept = getDepartment(slug);
   if (!dept) notFound();
 
-  const others = departments.filter((d) => d.slug !== dept.slug);
   const team = facultyByDept(dept.code);
   const facts = [
-    { icon: GraduationCap, label: "Degree", value: "B.Tech · 4 years" },
-    { icon: CalendarDays, label: "Started", value: dept.started },
-    { icon: Users, label: "Annual intake", value: `${dept.intake} students` },
-    { icon: UserRound, label: "Head of Department", value: dept.hod },
+    ["Programme", "B.Tech (4 years)"],
+    ["Started", dept.started],
+    ["Annual intake", `${dept.intake} students`],
+    ["Head of Department", dept.hod],
+    ["Faculty members", team.length],
   ];
 
   return (
     <>
-      <section className={`relative isolate overflow-hidden bg-gradient-to-br ${dept.color} text-white`}>
-        <div className="bg-grid absolute inset-0 -z-10 opacity-40" aria-hidden />
-        <div className="absolute inset-0 -z-10 bg-slate-950/40" aria-hidden />
-        <div className="container-page py-16 sm:py-24">
-          <Link href="/departments" className="inline-flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-white">
-            <ArrowLeft className="size-4" aria-hidden /> All departments
-          </Link>
-          <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center">
-            <span className="grid size-16 shrink-0 place-items-center rounded-2xl bg-white/15 ring-1 ring-white/30 backdrop-blur">
-              <DeptIcon name={dept.icon} className="size-8" />
-            </span>
-            <div>
-              <p className="text-sm font-bold tracking-widest text-white/70">DEPARTMENT OF</p>
-              <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-5xl">{dept.name}</h1>
-            </div>
-          </div>
-          <p className="mt-6 max-w-2xl text-lg text-white/85">{dept.tagline}</p>
-        </div>
-      </section>
+      <PageHeader title={`Department of ${dept.name}`} description={dept.tagline} crumbs={[{ label: "Departments", href: "/departments" }, { label: dept.code }]} />
 
-      <section className="container-page relative z-10 -mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {facts.map(({ icon: Icon, label, value }) => (
-          <Card key={label} className="flex items-center gap-4 shadow-lg">
-            <Icon className="size-6 text-brand-600 dark:text-brand-300" aria-hidden />
-            <div>
-              <p className="text-xs uppercase tracking-wider text-slate-500">{label}</p>
-              <p className="font-semibold text-slate-900 dark:text-white">{value}</p>
-            </div>
-          </Card>
-        ))}
-      </section>
-
-      <section className="container-page grid gap-12 py-20 lg:grid-cols-[1.4fr_1fr]">
+      <section className="container-page grid grid-cols-1 gap-10 py-14 lg:grid-cols-[1fr_300px]">
         <div>
-          <Reveal>
-            <h2 className="text-2xl font-bold sm:text-3xl">About the department</h2>
+          <SectionTitle title="About the Department" />
+          <div className="mt-6 space-y-4">
             {dept.about.map((p) => (
-              <p key={p.slice(0, 32)} className="mt-4 text-lg leading-relaxed text-slate-600 dark:text-slate-400">{p}</p>
+              <p key={p.slice(0, 32)}>{p}</p>
             ))}
-          </Reveal>
+          </div>
+
           {dept.vision && (
-            <Reveal>
-              <div className="mt-14 flex items-center gap-3">
-                <Eye className="size-6 text-brand-600 dark:text-brand-300" aria-hidden />
-                <h2 className="text-2xl font-bold sm:text-3xl">Vision</h2>
-              </div>
-              <blockquote className="mt-4 border-l-4 border-brand-500 pl-5 text-lg italic leading-relaxed text-slate-700 dark:text-slate-300">
-                {dept.vision}
-              </blockquote>
-            </Reveal>
+            <>
+              <h2 className="mt-10 text-2xl font-bold">Vision</h2>
+              <blockquote className="mt-4 border-l-4 border-gold-500 bg-slate-50 p-4 italic text-slate-700">{dept.vision}</blockquote>
+            </>
           )}
-          <Reveal>
-            <div className="mt-14 flex items-center gap-3">
-              <Target className="size-6 text-brand-600 dark:text-brand-300" aria-hidden />
-              <h2 className="text-2xl font-bold sm:text-3xl">Mission</h2>
-            </div>
-            <ol className="mt-6 space-y-4">
-              {dept.mission.map((m, i) => (
-                <li key={m} className="flex gap-4">
-                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-brand-50 font-display text-sm font-bold text-brand-700 dark:bg-brand-500/10 dark:text-brand-300">
-                    {i + 1}
-                  </span>
-                  <span className="pt-1 text-slate-700 dark:text-slate-300">{m}</span>
-                </li>
-              ))}
-            </ol>
-          </Reveal>
-          <Reveal delay={100}>
-            <h2 className="mt-14 text-2xl font-bold sm:text-3xl">What you will study</h2>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-              {dept.focusAreas.map((a) => (
-                <li key={a} className="flex items-start gap-3 rounded-2xl border border-slate-200/80 bg-white p-4 dark:border-white/10 dark:bg-slate-900/60">
-                  <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-emerald-500" aria-hidden />
-                  <span className="font-medium text-slate-800 dark:text-slate-200">{a}</span>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+
+          <h2 className="mt-10 text-2xl font-bold">Mission</h2>
+          <ol className="mt-4 list-decimal space-y-2 pl-6 marker:font-semibold marker:text-accent-700">
+            {dept.mission.map((m) => (
+              <li key={m} className="pl-1">{m}</li>
+            ))}
+          </ol>
+
+          <h2 className="mt-10 text-2xl font-bold">Areas of Study</h2>
+          <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            {dept.focusAreas.map((a) => (
+              <li key={a} className="flex items-start gap-2">
+                <CheckCircle2 className="mt-1 size-4 shrink-0 text-accent-600" aria-hidden /> {a}
+              </li>
+            ))}
+          </ul>
         </div>
 
         <aside className="space-y-6">
-          <Card className="p-7">
-            <div className="flex items-center gap-2">
-              <Users className="size-5 text-brand-600 dark:text-brand-300" aria-hidden />
-              <h2 className="text-lg font-bold">Faculty</h2>
-            </div>
-            <ul className="mt-4 divide-y divide-slate-100 dark:divide-white/10">
-              {team.map((f) => (
-                <li key={f.name} className="py-2.5">
-                  <p className="font-medium text-slate-900 dark:text-white">{f.name}</p>
-                  <p className="text-sm text-slate-500">{f.role}</p>
-                </li>
+          <div className="rounded border border-slate-200 bg-white shadow-sm">
+            <h2 className="bg-brand-800 px-4 py-3 font-serif text-lg font-semibold text-white">At a Glance</h2>
+            <dl className="divide-y divide-slate-100 text-sm">
+              {facts.map(([k, v]) => (
+                <div key={k} className="flex justify-between gap-3 px-4 py-2.5">
+                  <dt className="text-slate-500">{k}</dt>
+                  <dd className="text-right font-semibold text-brand-900">{v}</dd>
+                </div>
               ))}
-            </ul>
-            <Link href="/faculty" className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:underline dark:text-brand-300">
-              Full faculty directory <ArrowRight className="size-4" />
-            </Link>
-          </Card>
-          <Card className="p-7">
-            <div className="flex items-center gap-2">
-              <Briefcase className="size-5 text-brand-600 dark:text-brand-300" aria-hidden />
-              <h2 className="text-lg font-bold">Career paths</h2>
-            </div>
-            <ul className="mt-4 space-y-2.5">
+            </dl>
+          </div>
+          <div className="rounded border border-slate-200 bg-white shadow-sm">
+            <h2 className="bg-brand-800 px-4 py-3 font-serif text-lg font-semibold text-white">Career Paths</h2>
+            <ul className="space-y-1.5 p-4 text-sm">
               {dept.careers.map((c) => (
-                <li key={c} className="flex items-center gap-2.5 text-slate-700 dark:text-slate-300">
-                  <span className="size-1.5 rounded-full bg-brand-500" aria-hidden /> {c}
+                <li key={c} className="flex items-center gap-2">
+                  <span className="size-1.5 bg-accent-600" aria-hidden /> {c}
                 </li>
               ))}
             </ul>
-          </Card>
-          <Card className="bg-brand-50 p-7 dark:bg-brand-500/10">
-            <h2 className="text-lg font-bold">Interested in {dept.code}?</h2>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-              Admission to the first year is through the Assam CEE. Lateral entry to the second year is through JLEE.
-            </p>
-            <ButtonLink href="/admissions" className="mt-5 w-full">
-              Admission guide <ArrowRight className="size-4" />
-            </ButtonLink>
-          </Card>
+          </div>
+          <div className="rounded border border-slate-200 bg-brand-50 p-4">
+            <p className="text-sm">Admission to the first year is through the Assam CEE; lateral entry to the second year is through JLEE.</p>
+            <ButtonLink href="/admissions" variant="accent" className="mt-3 w-full">Admission guide</ButtonLink>
+          </div>
         </aside>
       </section>
 
-      <section className="border-t border-slate-200/80 bg-slate-50 py-16 dark:border-white/10 dark:bg-slate-900/40">
+      <section className="bg-slate-50 py-14">
         <div className="container-page">
-          <h2 className="text-xl font-bold">Other departments</h2>
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            {others.map((d) => (
-              <Link
-                key={d.slug}
-                href={`/departments/${d.slug}`}
-                className="group flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg dark:border-white/10 dark:bg-slate-900/60"
-              >
-                <span className={`grid size-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-white ${d.color}`}>
-                  <DeptIcon name={d.icon} className="size-5" />
-                </span>
-                <span className="font-semibold text-slate-900 group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-300">{d.name}</span>
-              </Link>
+          <SectionTitle title="Faculty" />
+          <ul className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            {team.map((f) => (
+              <li key={f.email || f.name}>
+                <FacultyCard person={f} />
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
+      </section>
+
+      <section className="container-page py-10">
+        <h2 className="text-lg font-bold">Other Departments</h2>
+        <ul className="mt-4 flex flex-wrap gap-3">
+          {departments
+            .filter((d) => d.slug !== dept.slug)
+            .map((d) => (
+              <li key={d.slug}>
+                <Link href={`/departments/${d.slug}`} className="inline-flex items-center gap-1 rounded border border-slate-300 px-3 py-2 text-sm font-medium text-brand-800 hover:border-brand-800 hover:bg-brand-50">
+                  {d.name} <ArrowRight className="size-3.5" aria-hidden />
+                </Link>
+              </li>
+            ))}
+        </ul>
       </section>
     </>
   );

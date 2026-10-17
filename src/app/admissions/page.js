@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, ChevronDown, ClipboardList, FileCheck2, FileText, GraduationCap, PenLine, School } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
 import NoticeItem from "@/components/NoticeItem";
-import Reveal from "@/components/Reveal";
-import { ButtonLink, Card, PageHeader, SectionHeading } from "@/components/ui";
+import { ButtonLink, Card, PageHeader, Panel, SectionTitle } from "@/components/ui";
 import { departments } from "@/data/departments";
 import { notices } from "@/data/notices";
 import { pmVidyalaxmiUrl } from "@/data/college";
@@ -13,17 +12,15 @@ export const metadata = {
 };
 
 const steps = [
-  { icon: PenLine, title: "Register for Assam CEE", text: "Apply for the Assam Combined Entrance Examination when the official notification is released." },
-  { icon: ClipboardList, title: "Appear for the exam", text: "Take the CEE and check your rank when results are announced." },
-  { icon: School, title: "Counselling & choice filling", text: "Take part in centralised counselling and select BVEC and your preferred branch." },
-  { icon: FileCheck2, title: "Report to the college", text: "Once a seat is allotted, report to BVEC with your original documents and complete admission." },
+  ["Register for Assam CEE", "Apply for the Assam Combined Entrance Examination when the official notification is released."],
+  ["Appear for the exam", "Take the CEE and check your rank when results are announced."],
+  ["Counselling & choice filling", "Take part in DTE Assam counselling and select BVEC and your preferred branch."],
+  ["Report to the college", "Once a seat is allotted, report to BVEC with your original documents and complete admission."],
 ];
 
 const routes = [
   {
-    icon: GraduationCap,
-    title: "First year B.Tech",
-    exam: "Assam CEE",
+    title: "First Year B.Tech — via Assam CEE",
     points: [
       "Passed Class 12 (or equivalent) with Physics and Mathematics, plus Chemistry / Biology / a technical vocational subject.",
       "Minimum marks as per the CEE notification and AICTE norms.",
@@ -31,9 +28,7 @@ const routes = [
     ],
   },
   {
-    icon: ArrowRight,
-    title: "Lateral entry (2nd year)",
-    exam: "JLEE",
+    title: "Lateral Entry (2nd Year) — via JLEE",
     points: [
       "Diploma in engineering in a relevant branch, or B.Sc. as per the notification.",
       "Admission directly into the third semester.",
@@ -42,7 +37,7 @@ const routes = [
   },
 ];
 
-const documents = [
+const documentsList = [
   "CEE / JLEE admit card and rank card",
   "Seat allotment letter",
   "Class 10 & 12 (or Diploma) mark sheets and certificates",
@@ -54,140 +49,120 @@ const documents = [
 ];
 
 const faqs = [
-  {
-    q: "Which programmes can I apply for?",
-    a: `BVEC offers B.Tech in ${departments.map((d) => d.name).join(", ")}. Each has 60 seats per year.`,
-  },
-  {
-    q: "Is there a separate entrance test for BVEC?",
-    a: "No. First-year admission is only through the Assam Combined Entrance Examination (CEE), and lateral entry is through JLEE.",
-  },
-  {
-    q: "Which university awards the degree?",
-    a: "The B.Tech degree is awarded by Assam Science and Technology University (ASTU), Guwahati.",
-  },
-  {
-    q: "Where can I find the exact dates and eligibility?",
-    a: "Dates, fees and eligibility can change every year. Always check the official CEE / JLEE notification and the Notices page.",
-  },
-  {
-    q: "Is financial help available?",
-    a: "Students can apply for education loans through the Government of India's PM Vidyalaxmi portal. Scholarship notices are posted on the Notices page.",
-  },
+  ["Is there a separate entrance test for BVEC?", "No. First-year admission is only through the Assam CEE, and lateral entry is through JLEE."],
+  ["Which university awards the degree?", "The B.Tech degree is awarded by Assam Science and Technology University (ASTU), Guwahati."],
+  ["Where can I find the exact dates and eligibility?", "Dates, fees and eligibility can change every year. Always check the official CEE / JLEE notification and the Notices page."],
+  ["Is financial help available?", "Students can apply for education loans through the Government of India's PM Vidyalaxmi portal. Scholarship notices are posted on the Notices page."],
 ];
 
 export default function AdmissionsPage() {
-  const admissionNotices = notices.filter((n) => n.category === "Admission").slice(0, 5);
+  const admissionNotices = notices.filter((n) => n.category === "Admission").slice(0, 6);
   return (
     <>
-      <PageHeader
-        title="Admissions"
-        description="Everything you need to know about joining a B.Tech programme at BVEC — from the entrance exam to your first day on campus."
-        crumbs={[{ label: "Admissions" }]}
-      />
+      <PageHeader title="Admissions" description="How to join a B.Tech programme at Barak Valley Engineering College." crumbs={[{ label: "Admissions" }]} />
 
-      <section className="container-page py-20">
-        <SectionHeading eyebrow="How it works" title="Four steps to BVEC" />
-        <ol className="relative mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {steps.map(({ icon: Icon, title, text }, i) => (
-            <Reveal as="li" key={title} delay={i * 90}>
-              <Card className="relative h-full pt-10">
-                <span className="absolute -top-5 left-6 grid size-10 place-items-center rounded-full bg-brand-600 font-display text-sm font-bold text-white shadow-lg shadow-brand-600/30 ring-4 ring-white dark:ring-slate-950">
-                  {i + 1}
-                </span>
-                <Icon className="size-7 text-brand-600 dark:text-brand-300" aria-hidden />
-                <h3 className="mt-4 text-lg font-bold">{title}</h3>
-                <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{text}</p>
-              </Card>
-            </Reveal>
+      <section className="container-page grid grid-cols-1 gap-10 py-14 lg:grid-cols-[1fr_360px]">
+        <div>
+          <SectionTitle title="Admission Procedure" />
+          <ol className="mt-8 space-y-4">
+            {steps.map(([t, d], i) => (
+              <li key={t} className="flex gap-4">
+                <span className="grid grid-cols-1 size-10 shrink-0 place-items-center rounded-full bg-brand-800 font-serif font-bold text-white">{i + 1}</span>
+                <div>
+                  <p className="font-serif text-lg font-bold text-brand-900">{t}</p>
+                  <p className="text-slate-600">{d}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <h2 className="mt-12 text-2xl font-bold">Seat Intake</h2>
+          <div className="mt-4 overflow-x-auto rounded border border-slate-200">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-brand-800 text-white">
+                <tr>
+                  <th scope="col" className="px-4 py-2.5 font-semibold">Programme</th>
+                  <th scope="col" className="px-4 py-2.5 font-semibold">Duration</th>
+                  <th scope="col" className="px-4 py-2.5 text-right font-semibold">Seats</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200">
+                {departments.map((d) => (
+                  <tr key={d.slug} className="even:bg-slate-50">
+                    <td className="px-4 py-2.5">
+                      <Link href={`/departments/${d.slug}`} className="font-medium text-brand-800 hover:underline">B.Tech in {d.name}</Link>
+                    </td>
+                    <td className="px-4 py-2.5">4 years</td>
+                    <td className="px-4 py-2.5 text-right font-semibold">{d.intake}</td>
+                  </tr>
+                ))}
+                <tr className="bg-brand-50 font-semibold">
+                  <td className="px-4 py-2.5" colSpan={2}>Total</td>
+                  <td className="px-4 py-2.5 text-right">{departments.reduce((s, d) => s + d.intake, 0)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <Panel
+          title="Admission Notices"
+          action={<Link href="/notices" className="text-xs font-semibold uppercase tracking-wide text-gold-300 hover:text-white">All</Link>}
+          className="self-start"
+        >
+          {admissionNotices.map((n) => (
+            <NoticeItem key={n.id} notice={n} compact />
           ))}
-        </ol>
+        </Panel>
       </section>
 
-      <section className="bg-slate-50 py-20 dark:bg-slate-900/40">
+      <section className="bg-slate-50 py-14">
         <div className="container-page">
-          <SectionHeading eyebrow="Eligibility" title="Two ways to join" />
-          <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            {routes.map(({ icon: Icon, title, exam, points }, i) => (
-              <Reveal key={title} delay={i * 100}>
-                <Card className="h-full p-8">
-                  <div className="flex items-center justify-between">
-                    <span className="grid size-12 place-items-center rounded-2xl bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-300">
-                      <Icon className="size-6" aria-hidden />
-                    </span>
-                    <span className="rounded-full bg-accent-500/10 px-3 py-1 text-xs font-bold text-accent-600 ring-1 ring-accent-500/20 dark:text-accent-400">
-                      via {exam}
-                    </span>
-                  </div>
-                  <h3 className="mt-6 text-2xl font-bold">{title}</h3>
-                  <ul className="mt-5 space-y-3">
-                    {points.map((p) => (
-                      <li key={p} className="flex gap-3 text-slate-600 dark:text-slate-400">
-                        <span className="mt-2 size-1.5 shrink-0 rounded-full bg-brand-500" aria-hidden />
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
-                </Card>
-              </Reveal>
+          <SectionTitle title="Eligibility" />
+          <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {routes.map((r) => (
+              <Card key={r.title} className="border-t-4 border-t-brand-800">
+                <h3 className="text-xl font-bold">{r.title}</h3>
+                <ul className="mt-4 list-disc space-y-2 pl-5 marker:text-accent-600">
+                  {r.points.map((p) => (
+                    <li key={p}>{p}</li>
+                  ))}
+                </ul>
+              </Card>
             ))}
           </div>
-          <p className="mt-6 text-center text-sm text-slate-500">
-            Eligibility rules are set by the official CEE / JLEE notification each year — please confirm the latest criteria there.
-          </p>
+          <p className="mt-4 text-sm text-slate-500">Eligibility rules are set by the official CEE / JLEE notification each year — please confirm the latest criteria there.</p>
         </div>
       </section>
 
-      <section className="container-page max-w-4xl py-20">
-        <SectionHeading eyebrow="2026 admissions" title="Latest admission notices" />
-        <div className="mt-10 space-y-3">
-          {admissionNotices.map((n) => (
-            <NoticeItem key={n.id} notice={n} />
-          ))}
-        </div>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-semibold">
-          <Link href="/notices" className="inline-flex items-center gap-1 text-brand-600 hover:underline dark:text-brand-300">
-            All notices <ArrowRight className="size-4" />
-          </Link>
-          <a href={pmVidyalaxmiUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-brand-600 hover:underline dark:text-brand-300">
-            PM Vidyalaxmi education loans <ArrowUpRight className="size-4" />
-          </a>
-        </div>
-      </section>
-
-      <section className="container-page grid gap-12 border-t border-slate-200/80 py-20 lg:grid-cols-2 dark:border-white/10">
+      <section className="container-page grid grid-cols-1 gap-12 py-14 lg:grid-cols-2">
         <div>
-          <SectionHeading align="left" eyebrow="Checklist" title="Documents to bring" description="Carry the originals and a set of self-attested photocopies when you report." />
-          <ul className="mt-8 grid gap-3">
-            {documents.map((d) => (
-              <li key={d} className="flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-white px-4 py-3 dark:border-white/10 dark:bg-slate-900/60">
-                <FileText className="size-5 shrink-0 text-brand-600 dark:text-brand-300" aria-hidden />
-                <span className="text-slate-700 dark:text-slate-300">{d}</span>
+          <SectionTitle title="Documents Required" subtitle="Carry the originals and a set of self-attested photocopies when you report." />
+          <ul className="mt-6 rounded border border-slate-200">
+            {documentsList.map((d) => (
+              <li key={d} className="flex items-center gap-3 border-b border-slate-200 px-4 py-2.5 last:border-b-0">
+                <FileText className="size-4 shrink-0 text-accent-600" aria-hidden /> {d}
               </li>
             ))}
           </ul>
         </div>
         <div>
-          <SectionHeading align="left" eyebrow="FAQ" title="Common questions" />
-          <div className="mt-8 space-y-3">
-            {faqs.map((f) => (
-              <details
-                key={f.q}
-                className="group rounded-2xl border border-slate-200/80 bg-white p-5 open:shadow-lg open:shadow-slate-900/5 dark:border-white/10 dark:bg-slate-900/60"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-slate-900 dark:text-white [&::-webkit-details-marker]:hidden">
-                  {f.q}
-                  <ChevronDown className="size-5 shrink-0 text-slate-400 transition group-open:rotate-180" aria-hidden />
+          <SectionTitle title="Frequently Asked Questions" />
+          <div className="mt-6 divide-y divide-slate-200 rounded border border-slate-200">
+            {faqs.map(([q, a]) => (
+              <details key={q} className="group px-4 py-3">
+                <summary className="cursor-pointer list-none font-semibold text-brand-900 [&::-webkit-details-marker]:hidden">
+                  <span className="mr-2 inline-block text-accent-600 transition-transform group-open:rotate-90">›</span>
+                  {q}
                 </summary>
-                <p className="mt-3 text-slate-600 dark:text-slate-400">{f.a}</p>
+                <p className="mt-2 pl-4 text-slate-600">{a}</p>
               </details>
             ))}
           </div>
-          <Card className="mt-8 bg-brand-50 dark:bg-brand-500/10">
-            <h3 className="font-bold">Still have questions?</h3>
-            <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">The college office can help with admission queries.</p>
-            <ButtonLink href="/contact" className="mt-4">Contact admissions</ButtonLink>
-          </Card>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <ButtonLink href={pmVidyalaxmiUrl} external variant="outline">PM Vidyalaxmi education loans</ButtonLink>
+            <ButtonLink href="/contact">Contact the office <ArrowRight className="size-4" /></ButtonLink>
+          </div>
         </div>
       </section>
     </>

@@ -1,82 +1,86 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/format";
 
 const buttonStyles = {
-  primary:
-    "bg-brand-600 text-white shadow-lg shadow-brand-600/25 hover:bg-brand-700 hover:shadow-brand-700/30",
-  secondary:
-    "bg-white text-slate-900 ring-1 ring-slate-200 hover:bg-slate-50 hover:ring-slate-300 dark:bg-white/5 dark:text-white dark:ring-white/15 dark:hover:bg-white/10",
-  light: "bg-white text-brand-800 shadow-lg hover:bg-brand-50",
-  ghost: "text-white ring-1 ring-white/30 hover:bg-white/10",
+  primary: "bg-brand-800 text-white hover:bg-brand-900",
+  accent: "bg-accent-600 text-white hover:bg-accent-700",
+  outline: "border border-brand-800 text-brand-800 hover:bg-brand-800 hover:text-white",
+  light: "bg-white text-brand-900 hover:bg-gold-300",
+  ghost: "border border-white/70 text-white hover:bg-white hover:text-brand-900",
 };
 
-export function ButtonLink({ href, variant = "primary", className, children, ...rest }) {
+export function ButtonLink({ href, variant = "primary", className, children, external, ...rest }) {
+  const cls = cn(
+    "inline-flex items-center justify-center gap-2 rounded px-5 py-2.5 text-sm font-semibold transition-colors",
+    buttonStyles[variant],
+    className
+  );
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={cls} {...rest}>
+        {children}
+      </a>
+    );
+  }
   return (
-    <Link
-      href={href}
-      className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition duration-200 hover:-translate-y-0.5",
-        buttonStyles[variant],
-        className
-      )}
-      {...rest}
-    >
+    <Link href={href} className={cls} {...rest}>
       {children}
     </Link>
   );
 }
 
-export function Eyebrow({ children, className }) {
+// Serif heading with the short maroon rule used across the site.
+export function SectionTitle({ title, subtitle, align = "left", light = false, className }) {
   return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-700 ring-1 ring-brand-100 dark:bg-brand-500/10 dark:text-brand-300 dark:ring-brand-500/20",
-        className
+    <div className={cn(align === "center" && "text-center", className)}>
+      <h2 className={cn("text-2xl font-bold sm:text-3xl", light && "text-white")}>{title}</h2>
+      <span
+        className={cn("mt-3 block h-[3px] w-14 bg-accent-600", align === "center" && "mx-auto", light && "bg-gold-400")}
+        aria-hidden
+      />
+      {subtitle && (
+        <p className={cn("mt-4 max-w-2xl", align === "center" && "mx-auto", light ? "text-brand-100" : "text-slate-600")}>
+          {subtitle}
+        </p>
       )}
-    >
-      {children}
-    </span>
-  );
-}
-
-export function SectionHeading({ eyebrow, title, description, align = "center", className }) {
-  return (
-    <div className={cn("max-w-2xl", align === "center" && "mx-auto text-center", className)}>
-      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-      <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
-      {description && <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">{description}</p>}
     </div>
   );
 }
 
+// Inner-page banner: campus photo with a navy overlay, title and breadcrumb.
 export function PageHeader({ title, description, crumbs = [] }) {
   return (
-    <section className="relative isolate overflow-hidden border-b border-slate-200/70 bg-slate-50 dark:border-white/10 dark:bg-slate-900/40">
-      <div className="bg-grid absolute inset-0 -z-10" aria-hidden />
-      <div className="absolute -top-24 right-0 -z-10 size-96 rounded-full bg-brand-400/20 blur-3xl" aria-hidden />
-      <div className="container-page py-14 sm:py-20">
-        <nav aria-label="Breadcrumb" className="mb-5">
-          <ol className="flex flex-wrap items-center gap-1 text-sm text-slate-500 dark:text-slate-400">
+    <section className="relative isolate overflow-hidden bg-brand-900">
+      <Image
+        src="/images/campus/campus-aerial-2.jpg"
+        alt=""
+        fill
+        sizes="100vw"
+        className="-z-10 object-cover opacity-25"
+        priority
+      />
+      <div className="container-page py-10 sm:py-14">
+        <nav aria-label="Breadcrumb">
+          <ol className="flex flex-wrap items-center gap-1 text-sm text-brand-100">
             <li>
-              <Link href="/" className="hover:text-brand-600 dark:hover:text-brand-300">Home</Link>
+              <Link href="/" className="hover:text-white hover:underline">Home</Link>
             </li>
             {crumbs.map((c) => (
               <li key={c.label} className="flex items-center gap-1">
                 <ChevronRight className="size-3.5" aria-hidden />
                 {c.href ? (
-                  <Link href={c.href} className="hover:text-brand-600 dark:hover:text-brand-300">{c.label}</Link>
+                  <Link href={c.href} className="hover:text-white hover:underline">{c.label}</Link>
                 ) : (
-                  <span aria-current="page" className="font-medium text-slate-700 dark:text-slate-200">{c.label}</span>
+                  <span aria-current="page" className="text-gold-300">{c.label}</span>
                 )}
               </li>
             ))}
           </ol>
         </nav>
-        <h1 className="max-w-3xl text-4xl font-extrabold tracking-tight sm:text-5xl">{title}</h1>
-        {description && (
-          <p className="mt-5 max-w-2xl text-lg text-slate-600 dark:text-slate-400">{description}</p>
-        )}
+        <h1 className="mt-3 text-3xl font-bold text-white sm:text-4xl">{title}</h1>
+        {description && <p className="mt-3 max-w-3xl text-brand-100">{description}</p>}
       </div>
     </section>
   );
@@ -84,14 +88,44 @@ export function PageHeader({ title, description, crumbs = [] }) {
 
 export function Card({ className, children, ...rest }) {
   return (
-    <div
-      className={cn(
-        "rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-slate-900/60",
-        className
-      )}
-      {...rest}
-    >
+    <div className={cn("rounded border border-slate-200 bg-white p-6 shadow-sm", className)} {...rest}>
       {children}
+    </div>
+  );
+}
+
+// Box with a navy title bar, used for notice boards and side panels.
+export function Panel({ title, action, className, children }) {
+  return (
+    <div className={cn("flex flex-col overflow-hidden rounded border border-slate-200 bg-white shadow-sm", className)}>
+      <div className="flex items-center justify-between gap-3 bg-brand-800 px-4 py-3">
+        <h2 className="font-serif text-lg font-semibold text-white">{title}</h2>
+        {action}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// Portrait photo, or initials when no photo is available.
+export function Portrait({ src, name, className, sizes = "200px" }) {
+  const initials = name
+    .replace(/^(Prof\.|Dr\.)\s*/g, "")
+    .replace(/^(Prof\.|Dr\.|\(Dr\.\))\s*/g, "")
+    .split(" ")
+    .filter((w) => /^[A-Z]/.test(w))
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("");
+  return (
+    <div className={cn("relative overflow-hidden bg-brand-50", className)}>
+      {src ? (
+        <Image src={src} alt={`Photo of ${name}`} fill sizes={sizes} className="object-cover object-top" />
+      ) : (
+        <span className="absolute inset-0 grid grid-cols-1 place-items-center font-serif text-3xl font-bold text-brand-300" aria-hidden>
+          {initials}
+        </span>
+      )}
     </div>
   );
 }

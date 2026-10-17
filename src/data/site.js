@@ -53,6 +53,7 @@ export const navLinks = [
       { href: "/facilities", label: "Hostels & Library" },
       { href: "/committees", label: "Committees" },
       { href: "/downloads", label: "Downloads & RTI" },
+      { href: "/gallery", label: "Photo Gallery" },
     ],
   },
   { href: "/contact", label: "Contact" },

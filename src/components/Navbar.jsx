@@ -3,9 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
-import Logo from "./Logo";
-import ThemeToggle from "./ThemeToggle";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { navLinks } from "@/data/site";
 import { cn } from "@/lib/format";
 
@@ -14,12 +12,10 @@ function isActive(pathname, link) {
   return link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
 }
 
-const pill = (active) =>
+const itemCls = (active) =>
   cn(
-    "rounded-full px-3.5 py-2 text-sm font-medium transition",
-    active
-      ? "bg-brand-50 text-brand-700 dark:bg-brand-500/15 dark:text-brand-300"
-      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white"
+    "flex h-12 items-center gap-1 border-b-[3px] px-3.5 text-[13px] font-semibold uppercase tracking-wide transition-colors",
+    active ? "border-gold-400 text-white" : "border-transparent text-brand-100 hover:bg-brand-900 hover:text-white"
   );
 
 function Dropdown({ link, pathname }) {
@@ -45,33 +41,31 @@ function Dropdown({ link, pathname }) {
         aria-expanded={open}
         aria-haspopup="true"
         onClick={() => setOpen((v) => !v)}
-        className={cn(pill(isActive(pathname, link)), "inline-flex items-center gap-1")}
+        className={itemCls(isActive(pathname, link))}
       >
         {link.label}
-        <ChevronDown className={cn("size-4 transition", open && "rotate-180")} aria-hidden />
+        <ChevronDown className="size-4" aria-hidden />
       </button>
       {open && (
-        <div className="absolute right-0 top-full pt-2">
-          <ul className="w-60 rounded-2xl border border-slate-200/80 bg-white p-2 shadow-xl shadow-slate-900/10 dark:border-white/10 dark:bg-slate-900">
-            {link.children.map((c) => (
-              <li key={c.href}>
-                <Link
-                  href={c.href}
-                  onClick={() => setOpen(false)}
-                  aria-current={pathname.startsWith(c.href) ? "page" : undefined}
-                  className={cn(
-                    "block rounded-xl px-3 py-2 text-sm font-medium transition",
-                    pathname.startsWith(c.href)
-                      ? "bg-brand-50 text-brand-700 dark:bg-brand-500/15 dark:text-brand-300"
-                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10"
-                  )}
-                >
-                  {c.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className="absolute left-0 top-full z-50 w-64 border-t-[3px] border-gold-400 bg-white py-1 shadow-lg">
+          {link.children.map((c) => (
+            <li key={c.href}>
+              <Link
+                href={c.href}
+                onClick={() => setOpen(false)}
+                aria-current={pathname.startsWith(c.href) ? "page" : undefined}
+                className={cn(
+                  "block border-l-[3px] px-4 py-2.5 text-sm transition-colors",
+                  pathname.startsWith(c.href)
+                    ? "border-accent-600 bg-brand-50 font-semibold text-brand-900"
+                    : "border-transparent text-slate-700 hover:border-accent-600 hover:bg-brand-50 hover:text-brand-900"
+                )}
+              >
+                {c.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
       )}
     </li>
   );
@@ -80,40 +74,12 @@ function Dropdown({ link, pathname }) {
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e) => e.key === "Escape" && setOpen(false);
-    document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
   const mobileLinks = navLinks.flatMap((l) => (l.children ? l.children : [l]));
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 border-b transition-colors duration-300",
-        scrolled || open
-          ? "border-slate-200/80 bg-white/85 backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/85"
-          : "border-transparent bg-white/0 dark:bg-slate-950/0"
-      )}
-    >
-      <nav className="container-page flex h-18 items-center justify-between gap-4" aria-label="Main">
-        <Logo />
-
-        <ul className="hidden items-center gap-0.5 lg:flex">
+    <nav className="sticky top-0 z-40 bg-brand-800 shadow-md" aria-label="Main">
+      <div className="container-page">
+        <ul className="hidden items-center lg:flex">
           {navLinks.map((link) =>
             link.children ? (
               <Dropdown key={link.label} link={link} pathname={pathname} />
@@ -122,7 +88,7 @@ export default function Navbar() {
                 <Link
                   href={link.href}
                   aria-current={isActive(pathname, link) ? "page" : undefined}
-                  className={pill(isActive(pathname, link))}
+                  className={itemCls(isActive(pathname, link))}
                 >
                   {link.label}
                 </Link>
@@ -131,35 +97,25 @@ export default function Navbar() {
           )}
         </ul>
 
-        <div className="flex items-center gap-1">
-          <ThemeToggle />
-          <Link
-            href="/admissions"
-            className="ml-1 hidden items-center gap-1.5 rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-brand-600/30 transition hover:bg-brand-700 sm:inline-flex lg:hidden xl:inline-flex"
-          >
-            Apply now <ArrowRight className="size-4" />
-          </Link>
+        <div className="flex h-12 items-center justify-between lg:hidden">
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="mobile-menu"
-            aria-label={open ? "Close menu" : "Open menu"}
-            className="grid size-10 place-items-center rounded-full text-slate-700 transition hover:bg-slate-100 lg:hidden dark:text-slate-200 dark:hover:bg-white/10"
+            className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-white"
           >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+            {open ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
+            Menu
           </button>
+          <Link href="/admissions" className="rounded bg-accent-600 px-3 py-1.5 text-xs font-semibold text-white">
+            Admissions 2026
+          </Link>
         </div>
-      </nav>
+      </div>
 
-      <div
-        id="mobile-menu"
-        className={cn(
-          "overflow-y-auto transition-[max-height,opacity] duration-300 lg:hidden",
-          open ? "max-h-[calc(100dvh-4.5rem)] opacity-100" : "pointer-events-none max-h-0 opacity-0"
-        )}
-      >
-        <ul className="container-page space-y-1 pb-6 pt-2">
+      {open && (
+        <ul id="mobile-menu" className="max-h-[70vh] overflow-y-auto border-t border-brand-700 bg-brand-900 py-2 lg:hidden">
           {mobileLinks.map((link) => {
             const active = isActive(pathname, link);
             return (
@@ -167,13 +123,10 @@ export default function Navbar() {
                 <Link
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  tabIndex={open ? 0 : -1}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "block rounded-xl px-4 py-3 text-base font-medium transition",
-                    active
-                      ? "bg-brand-50 text-brand-700 dark:bg-brand-500/15 dark:text-brand-300"
-                      : "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10"
+                    "block border-l-4 px-5 py-3 text-sm font-medium",
+                    active ? "border-gold-400 bg-brand-800 text-white" : "border-transparent text-brand-100 hover:bg-brand-800"
                   )}
                 >
                   {link.label}
@@ -181,18 +134,8 @@ export default function Navbar() {
               </li>
             );
           })}
-          <li className="pt-2 sm:hidden">
-            <Link
-              href="/admissions"
-              onClick={() => setOpen(false)}
-              tabIndex={open ? 0 : -1}
-              className="flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-3 font-semibold text-white"
-            >
-              Apply now <ArrowRight className="size-4" />
-            </Link>
-          </li>
         </ul>
-      </div>
-    </header>
+      )}
+    </nav>
   );
 }

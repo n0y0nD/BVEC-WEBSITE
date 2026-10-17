@@ -11,6 +11,7 @@ export const principal = {
   name: "Prof. (Dr.) Krishna Lal Baishnab",
   title: "Principal",
   email: "principal@bvec.ac.in",
+  photo: "/images/staff/principal.jpg",
   bio: [
     "Dr. Krishna Lal Baishnab, Professor of Electronics and Communication Engineering (on lien), joined as the Principal of Barak Valley Engineering College on 29 May 2026. He obtained his B.Tech from Regional Engineering College (now NIT) Silchar, followed by M.Tech and Ph.D. degrees from IIT Kharagpur and NIT Silchar respectively.",
     "He has an academic and administrative career of over 28 years at NIT Silchar, where he served in several key capacities, including Registrar (in-charge) for nearly two years.",
@@ -31,13 +32,13 @@ export const principal = {
 };
 
 export const nonTeachingStaff = [
-  { name: "Javed Hussain Mazumdar", role: "Senior Assistant", email: "javedmazumdar@bvec.ac.in" },
-  { name: "Mridul Rabha", role: "Senior Assistant", email: "mridulrabha@bvec.ac.in" },
-  { name: "Shakul Alam Barbhuiya", role: "Senior Assistant", email: "sab@bvec.ac.in" },
-  { name: "Arindam Roy", role: "Junior Assistant", email: "arindamroy@bvec.ac.in" },
-  { name: "Bidya Ratan Yadav", role: "Junior Assistant", email: "bidya@bvec.ac.in" },
-  { name: "Pratyush Nath", role: "Junior Assistant", email: "pratyushnath@bvec.ac.in" },
-  { name: "Titan Ghosh", role: "Junior Assistant", email: "titanghosh@bvec.ac.in" },
+  { name: "Javed Hussain Mazumdar", role: "Senior Assistant", email: "javedmazumdar@bvec.ac.in", photo: "/images/staff/javed-hussain-mazumdar.jpg" },
+  { name: "Mridul Rabha", role: "Senior Assistant", email: "mridulrabha@bvec.ac.in", photo: "/images/staff/mridul-rabha.jpg" },
+  { name: "Shakul Alam Barbhuiya", role: "Senior Assistant", email: "sab@bvec.ac.in", photo: "/images/staff/shakul-alam-barbhuiya.jpg" },
+  { name: "Arindam Roy", role: "Junior Assistant", email: "arindamroy@bvec.ac.in", photo: "/images/staff/arindam-roy.jpg" },
+  { name: "Bidya Ratan Yadav", role: "Junior Assistant", email: "bidya@bvec.ac.in", photo: "/images/staff/bidya-ratan-yadav.jpg" },
+  { name: "Pratyush Nath", role: "Junior Assistant", email: "pratyushnath@bvec.ac.in", photo: "/images/staff/pratyush-nath.jpg" },
+  { name: "Titan Ghosh", role: "Junior Assistant", email: "titanghosh@bvec.ac.in", photo: "/images/staff/titan-ghosh.jpg" },
 ];
 
 export const placement = {

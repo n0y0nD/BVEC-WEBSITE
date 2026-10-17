@@ -10,11 +10,11 @@ export default function NoticesPage() {
   return (
     <>
       <PageHeader
-        title="Notice board"
+        title="Notice Board"
         description="Admission, academic and tender notices from the college office. Each notice opens the official PDF."
         crumbs={[{ label: "Notices" }]}
       />
-      <section className="container-page max-w-4xl py-16">
+      <section className="container-page max-w-4xl py-12">
         <NoticeBoard />
       </section>
     </>

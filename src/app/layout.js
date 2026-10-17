@@ -1,14 +1,14 @@
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
-import Navbar from "@/components/Navbar";
+import { Source_Sans_3, Source_Serif_4 } from "next/font/google";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { site } from "@/data/site";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const jakarta = Plus_Jakarta_Sans({
+const body = Source_Sans_3({ subsets: ["latin"], variable: "--font-body", display: "swap" });
+const heading = Source_Serif_4({
   subsets: ["latin"],
-  variable: "--font-jakarta",
-  weight: ["500", "600", "700", "800"],
+  variable: "--font-heading",
+  weight: ["600", "700"],
   display: "swap",
 });
 
@@ -26,34 +26,23 @@ export const metadata = {
     siteName: site.name,
     locale: "en_IN",
     type: "website",
-    images: ["/images/bvec-logo.png"],
+    images: ["/images/campus/campus-aerial-1.jpg"],
   },
 };
 
-export const viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#020617" },
-  ],
-};
-
-// Sets the theme class before the page paints, so there is no flash.
-const themeScript = `(function(){try{var t=localStorage.getItem('theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d);}catch(e){}})();`;
+export const viewport = { themeColor: "#122e55" };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${jakarta.variable}`}>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="en" className={`${body.variable} ${heading.variable}`}>
       <body className="flex min-h-screen flex-col">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded focus:bg-brand-800 focus:px-4 focus:py-2 focus:text-white"
         >
           Skip to content
         </a>
-        <Navbar />
+        <Header />
         <main id="main" className="flex-1">
           {children}
         </main>

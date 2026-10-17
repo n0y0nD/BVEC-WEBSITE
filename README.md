@@ -33,6 +33,7 @@ Other scripts:
 | `/facilities`             | Hostels, library, health centre             |
 | `/committees`             | Grievance redressal and other committees    |
 | `/downloads`              | Academic docs, AICTE approvals, magazine, RTI |
+| `/gallery`                | Photo gallery of campus life                |
 | `/contact`                | Contact details, message form and map       |
 
 ## Editing content
@@ -44,6 +45,7 @@ All content lives in plain JavaScript files in `src/data/` — no code changes n
 - `notices.js` — notices (newest first), each linking to its PDF
 - `faculty.js` — faculty directory
 - `college.js` — principal, staff, placement, hostel, committees, documents, RTI
+- `gallery.js` — home page slideshow and photo gallery albums
 
 > Content is taken from the official website, [bvec.ac.in](https://www.bvec.ac.in/). Documents and notice PDFs link to their copies there. To add a notice, add its PDF id, date, category and title to `notices.js`.
 
@@ -55,11 +57,11 @@ src/
   components/   # Navbar, Footer, cards, filters, etc.
   data/         # editable site content
   lib/          # small helpers (date formatting)
-public/images/  # logo and other images
+public/images/  # logo, campus photos, faculty and staff photos
 design-reference/bvec.html  # the original static HTML mockup
 ```
 
-Features: light/dark theme (remembers your choice), responsive layout, scroll animations (disabled for users who prefer reduced motion), SEO metadata, `sitemap.xml` and `robots.txt`.
+Features: traditional college-site layout (utility bar, masthead, news ticker, notice board), campus photo slideshow, faculty photos, responsive layout, SEO metadata, `sitemap.xml` and `robots.txt`.
 
 ---
 
