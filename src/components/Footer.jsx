@@ -1,48 +1,80 @@
+import Link from "next/link";
+import { Mail, MapPin, Phone } from "lucide-react";
+import Logo from "./Logo";
+import { site } from "@/data/site";
+import { departments } from "@/data/departments";
+
+const columns = [
+  {
+    title: "Explore",
+    span: "lg:col-span-2",
+    links: [
+      { href: "/about", label: "About BVEC" },
+      { href: "/admissions", label: "Admissions" },
+      { href: "/faculty", label: "Faculty" },
+      { href: "/notices", label: "Notices" },
+      { href: "/contact", label: "Contact" },
+    ],
+  },
+  {
+    title: "Departments",
+    span: "lg:col-span-3",
+    links: departments.map((d) => ({ href: `/departments/${d.slug}`, label: d.name })),
+  },
+];
+
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          <div>
-            <h3 className="text-xl font-semibold mb-4">Barak Valley Engineering College</h3>
-            <p className="text-gray-400 text-sm">
-              Empowering minds, building futures.
-            </p>
-          </div>
-
-          <div>
-            <h4 className="font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-gray-400 text-sm">
-              <li>About</li>
-              <li>Departments</li>
-              <li>Admissions</li>
-              <li>Faculty</li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold mb-4">Resources</h4>
-            <ul className="space-y-2 text-gray-400 text-sm">
-              <li>Notices</li>
-              <li>Alumni</li>
-              <li>Careers</li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold mb-4">Contact</h4>
-            <p className="text-sm text-gray-400">
-              Barak Valley Engineering College, Assam
-            </p>
-          </div>
+    <footer className="mt-auto bg-slate-950 text-slate-400">
+      <div className="container-page grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-12">
+        <div className="lg:col-span-4">
+          <Logo inverted />
+          <p className="mt-5 max-w-sm text-sm leading-relaxed">
+            {site.status}. <span className="text-slate-300">{site.motto}.</span>
+          </p>
         </div>
 
-        <div class="mt-12 pt-8 border-t border-white/10">
-                <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                    <p class="text-sm text-gray-400">© 2026 BVEC. All rights reserved.</p>
-                    <p class="text-xs text-gray-500">This is a UI/UX Project made by NAYANJYOTI DAS.</p>
-                </div>
-            </div>
+        {columns.map((col) => (
+          <div key={col.title} className={col.span}>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">{col.title}</h3>
+            <ul className="mt-4 space-y-3 text-sm">
+              {col.links.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="transition hover:text-white">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+
+        <div className="lg:col-span-3">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Contact</h3>
+          <ul className="mt-4 space-y-4 text-sm">
+            <li className="flex gap-3">
+              <MapPin className="mt-0.5 size-4 shrink-0 text-brand-400" aria-hidden />
+              <span>
+                {site.address.line2}, {site.address.line3}
+              </span>
+            </li>
+            <li className="flex gap-3">
+              <Phone className="mt-0.5 size-4 shrink-0 text-brand-400" aria-hidden />
+              <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="hover:text-white">{site.phone}</a>
+            </li>
+            <li className="flex gap-3">
+              <Mail className="mt-0.5 size-4 shrink-0 text-brand-400" aria-hidden />
+              <a href={`mailto:${site.email}`} className="hover:text-white">{site.email}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="border-t border-white/10">
+        <div className="container-page flex flex-col items-center justify-between gap-2 py-6 text-xs sm:flex-row">
+          <p>© {new Date().getFullYear()} Barak Valley Engineering College. All rights reserved.</p>
+          <p className="text-slate-500">UI/UX project by Nayanjyoti Das.</p>
+        </div>
       </div>
     </footer>
   );
